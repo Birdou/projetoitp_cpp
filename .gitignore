@@ -1,0 +1,15 @@
+.vs
+objects
+
+prog
+paintIt
+
+*.exe
+*.jpg
+*.ppm
+*.png
+*.bmp
+*.zip
+*.rar
+*.sublime-workspace
+*.sublime-project
