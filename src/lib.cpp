@@ -107,3 +107,42 @@ Uint32 lib::getpixel(SDL_Surface *surface, int x, int y)
 			return 0;
 	}
 }
+
+void lib::replaceAll(std::string& str, const std::string& from, const std::string& to)
+{
+	size_t start_pos = 0;
+	while((start_pos = str.find(from, start_pos)) != std::string::npos)
+	{
+		str.replace(start_pos, from.length(), to);
+		start_pos += to.length();
+	}
+}
+
+void lib::replaceWhole(std::string& str, const std::string& from, const std::string& to)
+{
+	std::istringstream iss(str);
+	std::ostringstream oss;
+	
+	std::string word;
+	while(!iss.eof())
+	{
+		iss >> word;
+		if(word == from)
+		{
+			oss << to;
+		}
+		else
+		{
+			oss << word;
+		}
+		if(!iss.eof())
+		{
+			char c;
+			while((c = iss.get()) == ' ')
+				oss << " ";
+			iss.unget();
+		}
+	}
+	str = oss.str();
+
+}

@@ -3,9 +3,14 @@
 #define HELP_H
 
 #include <cstdio>
+#include <string>
 
-void listcolor ();
+namespace paintit
+{
+	void listcolor();
+	void help();
 
-void help ();
+	std::string commandHelp(const std::string& command);
+}
 
 #endif

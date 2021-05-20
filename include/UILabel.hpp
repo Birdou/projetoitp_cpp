@@ -17,7 +17,8 @@ private:
 	SDL_Rect position;
 	SDL_Texture* labelTexture = NULL;
 	std::string labelText, labelFont;
-	bool aligned_left = true, aligned_center = false, aligned_right = false;
+	bool aligned_left = true, aligned_center = false, aligned_right = false, sideside = false;
+	Entity* sidelabel = nullptr;
 
 public:
 	bool enabled = true;
@@ -63,6 +64,13 @@ public:
 		AdjustPosition();
 	}
 
+	void SetAtSide(const std::string& labelname)
+	{
+		aligned_left = aligned_center = aligned_right = false;
+		sideside = true;
+		sidelabel = paintit::viewer::manager.getEntityByID(labelname);
+	}
+
 	void SetAlignment(Alignment alignment)
 	{
 		switch (alignment)
@@ -89,26 +97,39 @@ public:
 
 	void AdjustPosition()
 	{
+		if(labelTexture == NULL) 
+			return;
+
 		SDL_QueryTexture(labelTexture, nullptr, nullptr, &position.w, &position.h);
-		if(aligned_left)
+		if(sideside && sidelabel != nullptr)
 		{
-			position.x = xpos;
+			position.y = sidelabel->getComponent<UILabel>().position.y;
+			position.x = sidelabel->getComponent<UILabel>().position.x + sidelabel->getComponent<UILabel>().position.w;
 		}
-		else if(aligned_center)
-		{
-			position.x = xpos - (position.w / 2);
-		}
-		else if(aligned_right)
-		{
-			position.x = xpos - (position.w);
+		else
+		{ 
+			if(aligned_left)
+			{
+				position.x = xpos;
+			}
+			else if(aligned_center)
+			{
+				position.x = xpos - (position.w / 2);
+			}
+			else if(aligned_right)
+			{
+				position.x = xpos - (position.w);
+			}
+			position.y = ypos;
 		}
 	}
 
-	void SetLabelTextSolid(std::string text)
+	void SetLabelTextSolid(const std::string& text)
 	{
-		if(!enabled || labelText == text) 
+		if(!enabled || labelText == text)
+		{
 			return;
-
+		}
 		if(labelTexture != NULL)
 			SDL_DestroyTexture(labelTexture);
 
@@ -120,11 +141,12 @@ public:
 		AdjustPosition();
 		labelText = text;
 	}
-	void SetLabelTextShaded(std::string text)
+	void SetLabelTextShaded(const std::string& text)
 	{
-		if(!enabled || labelText == text) 
+		if(!enabled || labelText == text)
+		{
 			return;
-
+		}
 		if(labelTexture != NULL)
 			SDL_DestroyTexture(labelTexture);
 
@@ -136,11 +158,12 @@ public:
 		AdjustPosition();
 		labelText = text;
 	}
-	void SetLabelTextBlended(std::string text)
+	void SetLabelTextBlended(const std::string& text)
 	{
-		if(!enabled || labelText == text) 
+		if(!enabled || labelText == text)
+		{
 			return;
-
+		}
 		if(labelTexture != NULL)
 			SDL_DestroyTexture(labelTexture);
 

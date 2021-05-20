@@ -11,10 +11,6 @@ namespace paintit
 {
 	class penc
 	{
-	private:
-		paintit::rgb color;
-		double size;
-
 	public:
 		penc();
 		penc(paintit::rgb color, double size);
@@ -27,6 +23,19 @@ namespace paintit
 		void setSize(double size);
 
 		void scolor(const std::string& colorname);
+
+		enum modes
+		{
+			normal,
+			additive
+		};
+		modes mode = normal;
+
+	private:
+		paintit::rgb color;
+		double size;
+
+
 	};
 }
 

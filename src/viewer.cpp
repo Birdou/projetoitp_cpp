@@ -8,7 +8,7 @@ SDL_Renderer* paintit::viewer::renderer = nullptr;
 SDL_Event paintit::viewer::event;
 bool paintit::viewer::isRunning = false;
 
-Manager manager;
+Manager paintit::viewer::manager;
 AssetManager* paintit::viewer::assetManager = new AssetManager(&manager);
 
 paintit::viewer::viewer(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen):
@@ -69,12 +69,26 @@ void paintit::viewer::init()
 
 	assetManager->AddFont("arial_14", "assets/fonts/arial.ttf", 14);
 
-	SDL_Color labelcolor = {255, 255, 255, 255};
+	SDL_Color white = {255, 255, 255, 255};
+	SDL_Color black = {0, 0, 0, 255};
+	SDL_Color red = {255, 0, 0, 255};
+	SDL_Color blue = {0, 255, 0, 255};
+	SDL_Color green = {0, 0, 255, 255};
 	
-		assetManager->CreateLabel("position_label", Vector2D(10, height - 20), "", "arial_14", labelcolor);
-		assetManager->CreateLabel("window_position_label", Vector2D(10, height - 40), "", "arial_14", labelcolor);
-		assetManager->CreateLabel("resolution_label", Vector2D(10, 10), "", "arial_14", labelcolor);	
-		assetManager->CreateLabel("scale_label", Vector2D(width - 10, 10), "", "arial_14", labelcolor)
+		auto& redlabel = assetManager->CreateLabel("red_color_label", Vector2D(10, height - 60), "R", "arial_14", black);
+			redlabel.getComponent<UILabel>().SetBackground(red);
+			redlabel.getComponent<UILabel>().SetAlignment(UILabel::left);
+		auto& greenlabel = assetManager->CreateLabel("green_color_label", Vector2D(10, height - 60), "G", "arial_14", black);
+			greenlabel.getComponent<UILabel>().SetBackground(green);
+			greenlabel.getComponent<UILabel>().SetAtSide("red_color_label");
+		auto& bluelabel = assetManager->CreateLabel("blue_color_label", Vector2D(10, height - 60), "B", "arial_14", black);
+			bluelabel.getComponent<UILabel>().SetBackground(blue);
+			bluelabel.getComponent<UILabel>().SetAtSide("green_color_label");
+
+		assetManager->CreateLabel("position_label", Vector2D(10, height - 20), "", "arial_14", white);
+		assetManager->CreateLabel("window_position_label", Vector2D(10, height - 40), "", "arial_14", white);
+		assetManager->CreateLabel("resolution_label", Vector2D(10, 10), "", "arial_14", white);	
+		assetManager->CreateLabel("scale_label", Vector2D(width - 10, 10), "", "arial_14", white)
 			.getComponent<UILabel>().SetAlignment(UILabel::right); /*Se SetAlignment fosse do tipo Entity, ajustes
 																	 desse tipo poderiam ser realizados em cadeia*/
 
@@ -121,7 +135,7 @@ void paintit::viewer::handleEvents()
 				{
 					//TODO: Corrgir o zoom out
 					xyscale /= 1.25f;
-					
+
 					dx = x - relative_imagex;
 					dy = y - relative_imagey;
 
@@ -207,39 +221,89 @@ void paintit::viewer::update()
 	int wx, wy;
 	SDL_GetMouseState(&wx, &wy);
 	
-	auto position_label = manager.getEntityByID("position_label");
+	if(x >= 0 && x < paintit_main::current_image->getWidth() &&
+		y >= 0 && y < paintit_main::current_image->getHeight())
+	{
+		auto redlabel	= manager.getEntityByID("red_color_label");
+		auto greenlabel	= manager.getEntityByID("green_color_label");
+		auto bluelabel	= manager.getEntityByID("blue_color_label");
+		
+		redlabel->getComponent<UILabel>().SetLabelTextShaded("RRR"/*std::to_string(paintit_main::current_image[y][x]->getR())*/);
+		greenlabel->getComponent<UILabel>().SetLabelTextShaded("GGG"/*std::to_string(paintit_main::current_image[y][x]->getG())*/);
+		bluelabel->getComponent<UILabel>().SetLabelTextShaded("BBB"/*std::to_string(paintit_main::current_image[y][x]->getB())*/);
+
+		redlabel->getComponent<UILabel>().SetPosition(10, height - 60);
+		greenlabel->getComponent<UILabel>().AdjustPosition();
+		bluelabel->getComponent<UILabel>().AdjustPosition();
+	}
+
+	auto position_label 		= manager.getEntityByID("position_label");
+	auto window_position_label 	= manager.getEntityByID("window_position_label");
+	auto resolution_label 		= manager.getEntityByID("resolution_label");
+	auto scale_label 			= manager.getEntityByID("scale_label");
+	
 	position_label->getComponent<UILabel>().SetLabelTextShaded(std::to_string(x) + " " + std::to_string(y));
 	position_label->getComponent<UILabel>().SetPosition(10, height - 20);
-
-	auto window_position_label = manager.getEntityByID("window_position_label");
+	
 	window_position_label->getComponent<UILabel>().SetLabelTextShaded(std::to_string(wx) + " " + std::to_string(wy));
 	window_position_label->getComponent<UILabel>().SetPosition(10, height - 40);
-
-	auto resolution_label = manager.getEntityByID("resolution_label");
-	resolution_label->getComponent<UILabel>().SetLabelTextShaded(std::to_string(width) + "x" + std::to_string(height));
-	resolution_label->getComponent<UILabel>().SetPosition(10, 10);
-
-	auto scale_label = manager.getEntityByID("scale_label");
+	
 	scale_label->getComponent<UILabel>().SetLabelTextShaded("x" + std::to_string(xyscale));
 	scale_label->getComponent<UILabel>().SetPosition(width - 10, 10);
+
+	resolution_label->getComponent<UILabel>().SetLabelTextShaded(std::to_string(width) + "x" + std::to_string(height));
+
 
 	manager.refresh();
 	manager.update();
 }
 
-auto& labels = manager.getGroup(AssetManager::groupLabels);
+void paintit::viewer::updateImage()
+{
+	if(imageTexture != NULL)
+		SDL_DestroyTexture(imageTexture);
+
+	SDL_Surface* surface = IMG_Load("editview.bmp");
+	if(surface != NULL)
+	{
+		imageTexture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+	}
+}
+
+void paintit::viewer::updateImage(paintit::ppm& image)
+{
+	if(imageTexture != NULL)
+		SDL_DestroyTexture(imageTexture);
+
+	SDL_Surface* surface = SDL_CreateRGBSurface(0, image.getWidth(), image.getHeight(), 32, 0, 0, 0, 0);
+	if(surface != NULL)
+	{
+		unsigned char* pixels = (unsigned char*)surface->pixels;
+		for(size_t x = 0; x < image.getWidth(); ++x)
+		{
+			for(size_t y = 0; y < image.getHeight(); ++y)
+			{
+				pixels[4 * (y * surface->w + x) + 2] = image[y][x].getR(); //2103
+				pixels[4 * (y * surface->w + x) + 1] = image[y][x].getG(); //2103
+				pixels[4 * (y * surface->w + x) + 0] = image[y][x].getB(); //2103
+				pixels[4 * (y * surface->w + x) + 3] = 255; //2103
+			}
+		}
+		imageTexture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_FreeSurface(surface);
+	}
+}
+
+auto& labels = paintit::viewer::manager.getGroup(AssetManager::groupLabels);
 
 void paintit::viewer::draw()
 {
 	SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 144, 144, 144, 255);
 
-	SDL_Surface* surface = IMG_Load("editview.bmp");
-	if(surface != NULL)
+	if(imageTexture != NULL)
 	{
-		if(imageTexture != NULL)
-			SDL_DestroyTexture(imageTexture);
-		imageTexture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_QueryTexture(imageTexture, nullptr, nullptr, &imagew, &imageh);
 
 		destRect.x = relative_imagex;
@@ -248,7 +312,6 @@ void paintit::viewer::draw()
 		destRect.h = imageh * xyscale;
 
 		TextureManager::Draw(imageTexture, destRect);
-		SDL_FreeSurface(surface);
 	}
 
 	for(auto& label : labels)

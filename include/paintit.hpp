@@ -27,8 +27,13 @@ namespace paintit
 		paintit_main();
 		~paintit_main();
 
+		static bool isRunning;
+
+		std::vector<std::string> history;
+
 		void init();
 		void execute();
+		std::string executeCommand(const std::string& command);
 
 	private:
 		static viewer* view;

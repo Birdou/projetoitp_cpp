@@ -1,6 +1,6 @@
 
 #If you are using SDL2
-SDL_COMP_FLAGS=-IC:/MinGW/include/SDL2 # -I[full path to SDL2 include folder]. Default: -IC:/MinGW/include/SDL2
+SDL_COMP_FLAGS=-IY:/MinGW/include/SDL2 # -I[full path to SDL2 include folder]. Default: -IC:/MinGW/include/SDL2
 SDL_LINK_FLAGS=-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 ################################
@@ -26,10 +26,9 @@ OBJFOLDER=objects
 COMPILER=g++
 
 #flags that will be used when compiling binaries
-COMPILATION_FLAGS=-Wall -Wextra -pedantic ${SDL_COMP_FLAGS} -g -DDEBUG
+COMPILATION_FLAGS=-Wall -Wextra -pedantic ${SDL_COMP_FLAGS} -g
 #flags that will be used when linking the executable
 LINKER_FLAGS=${SDL_LINK_FLAGS}
-
 #environment defines (to use with #ifdef for example)
 DEFINES=DEBUG
 ################################

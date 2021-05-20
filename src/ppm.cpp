@@ -174,8 +174,8 @@ std::string paintit::ppm::clear(const paintit::rgb& newcolor)
 
 std::string paintit::ppm::saveP3(const std::string& arquivo)
 {
-	std::fstream save;
-	save.open(arquivo, std::ios_base::out);
+	std::ofstream save;
+	save.open(arquivo);
 	save << "P3\r";
 	save << this->width << " " << this->height << "\r";
 	save << "255\r";
@@ -196,8 +196,8 @@ std::string paintit::ppm::saveP3(const std::string& arquivo)
 }
 std::string paintit::ppm::saveP6(const std::string& arquivo)
 {
-	std::fstream save;
-	save.open(arquivo, std::ios_base::out);
+	std::ofstream save;
+	save.open(arquivo, std::ios_base::binary);
 	save << "P6\r";
 	save << this->width << " " << this->height << "\r";
 	save << "255\r";
@@ -205,7 +205,7 @@ std::string paintit::ppm::saveP6(const std::string& arquivo)
 	{
 		for(size_t i = 0; i < this->width; ++i)
 		{
-			save << static_cast<char>(this->color[i][j].getR()) << static_cast<char>(this->color[i][j].getG()) << static_cast<char>(this->color[i][j].getB());
+			save << (unsigned char)this->color[i][j].getR() << (unsigned char)this->color[i][j].getG() << (unsigned char)this->color[i][j].getB();
 		}
 	}
 	save.close();
@@ -303,7 +303,6 @@ std::string paintit::ppm::openP3(const std::string& arquivo)
 
 	if(!file.is_open())
 	{
-		std::cout << "filename: " << arquivo << std::endl;
 		return inexistent_file_exception;
 	}
 	int colors, magic;
@@ -312,6 +311,8 @@ std::string paintit::ppm::openP3(const std::string& arquivo)
 	file >> P >> magic;
 	file >> this->width >> this->height;
 	file >> colors;
+
+	file.ignore();
 
 	if(file.failbit || magic != 3)
 	{
@@ -363,6 +364,8 @@ std::string paintit::ppm::openP6(const std::string& arquivo)
 	file >> this->width >> this->height;
 	file >> colors;
 
+	file.ignore();
+
 	if(file.failbit || magic != 6)
 	{
 		file.close();
@@ -383,7 +386,7 @@ std::string paintit::ppm::openP6(const std::string& arquivo)
 			unsigned char r = 0, g = 0, b = 0;
 
 			file >> r >> g >> b;
-			this->color[i][j] = paintit::rgb(r, g, b);
+			this->color[i][j].setRGB(r, g, b);
 
 			if(file.failbit)
 			{

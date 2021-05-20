@@ -14,7 +14,14 @@ std::string paintit::functions::draw(paintit::ppm& image, const penc& pincel, si
 			}
 			else
 			{
-				image[i][j] = pincel.getColor();
+				if(pincel.mode == penc::modes::normal)
+				{
+					image[i][j] = pincel.getColor();
+				}
+				else if(pincel.mode == penc::modes::additive)
+				{
+					image[i][j] = (image[i][j] + pincel.getColor()) / 2;
+				}
 			}
 		}
 	}
@@ -246,16 +253,16 @@ std::string paintit::functions::circle(paintit::ppm& image, const penc& pincel, 
 	{
 		for(int x = -raio; x <= raio; ++x)
 		{
-			if(p)
+			if(p > 1)
 			{
-				if(pow(x, 2) + pow(y, 2) <= pow(raio, 2))
+				if(round(sqrt(pow(x, 2) + pow(y, 2))) <= raio)
 				{
 					draw(image, pincel, pos.x+x, pos.y+y);
 				}
 			}
 			else
 			{
-				if(pow(x, 2) + pow(y, 2) == pow(raio, 2))
+				if(round(sqrt(pow(x, 2)+ pow(y, 2))) == raio)
 				{
 					draw(image, pincel, pos.x+x, pos.y+y);
 				}

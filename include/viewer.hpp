@@ -36,12 +36,16 @@ namespace paintit
         viewer(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen);
         ~viewer();
 
+        static Manager manager;
         static SDL_Renderer* renderer;
         static SDL_Event event;
         static bool isRunning;
     
         void init();
         
+        void updateImage();
+        void updateImage(paintit::ppm&);
+
         void handleEvents();
         void update();
         void draw();
