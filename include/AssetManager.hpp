@@ -22,7 +22,6 @@ public:
 	};
 
 	Entity& CreateLabel(const std::string& labelName, const Vector2D& position, const std::string& text, const std::string& font, SDL_Color color);
-	//Entity* Label(const std::string& labelName);
 
 	void AddTexture(const std::string& id, char const * path);
 	void AddFont(const std::string& id, const std::string& path, int fontSize);
@@ -36,7 +35,6 @@ private:
 	Manager* manager;
 	std::map<std::string, SDL_Texture*> textures;
 
-	//std::map<std::string, Entity*> labels;
 	
 };
 

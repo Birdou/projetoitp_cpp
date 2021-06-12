@@ -12,7 +12,7 @@ namespace paintit
 {
 	namespace functions
 	{
-		std::string draw		(paintit::ppm& image, const paintit::penc& pincel, size_t PX, size_t PY) noexcept;
+		std::string draw		(paintit::ppm& image, const paintit::penc& pincel, ssize_t PX, ssize_t PY) noexcept;
 		std::string linehigh	(paintit::ppm& image, const paintit::penc& pincel, const paintit::coord& P1, const paintit::coord& P2);
 		std::string linelow		(paintit::ppm& image, const paintit::penc& pincel, const paintit::coord& P1, const paintit::coord& P2);
 		std::string line		(paintit::ppm& image, const paintit::penc& pincel, const paintit::coord&, const paintit::coord&);

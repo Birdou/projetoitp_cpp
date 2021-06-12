@@ -28,7 +28,7 @@ COMPILER=g++
 #flags that will be used when compiling binaries
 COMPILATION_FLAGS=-Wall -Wextra -pedantic ${SDL_COMP_FLAGS} -g
 #flags that will be used when linking the executable
-LINKER_FLAGS=${SDL_LINK_FLAGS}
+LINKER_FLAGS=${SDL_LINK_FLAGS} -LY:/MinGW/include/bib -lcolor
 #environment defines (to use with #ifdef for example)
 DEFINES=DEBUG
 ################################

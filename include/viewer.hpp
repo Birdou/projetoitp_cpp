@@ -40,9 +40,9 @@ namespace paintit
         static SDL_Renderer* renderer;
         static SDL_Event event;
         static bool isRunning;
-    
+
         void init();
-        
+
         void updateImage();
         void updateImage(paintit::ppm&);
 

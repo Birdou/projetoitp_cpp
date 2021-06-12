@@ -64,6 +64,12 @@ bool paintit::ppm::ready() const
 	return isReady;
 }
 
+paintit::rgb* paintit::ppm::getColor(size_t x, size_t y)
+{
+	if(!ready() || !hasInitialized()) return nullptr;
+	return &this->color[x][y];
+}
+
 paintit::rgb* paintit::ppm::operator[](size_t line)
 {
 	return this->color[line];
@@ -481,13 +487,13 @@ std::string paintit::ppm::invert()
 	if(this->color == nullptr)
 		return uninitialized_image_exception;
 
-	for(size_t i = 0; i < this->width; ++i) 
+	for(size_t i = 0; i < (this->width - 1) / 2; ++i)
 	{
-		for(size_t j = 0; j <=(this->height - 1) / 2; ++j) 
+		for(size_t j = 0; j <= this->height; ++j)
 		{
 			paintit::rgb tmp = this->color[i][j];
-			this->color[i][j] = this->color[i][this->width - j - 1];
-			this->color[i][this->width - j - 1] = tmp;
+			this->color[i][j] = this->color[this->width - i - 1][j];
+			this->color[this->width - i - 1][j] = tmp;
 		}
 	}
 

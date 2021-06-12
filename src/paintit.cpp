@@ -3,10 +3,12 @@
 
 #include <sstream>
 #include <algorithm>
+#include <bib/color.h>
 
 #include "viewer.hpp"
 
 paintit::ppm* paintit::paintit_main::current_image = nullptr;
+paintit::penc* paintit::paintit_main::pincel = nullptr;
 paintit::viewer* paintit::paintit_main::view = nullptr;
 
 bool paintit::paintit_main::isRunning = false;
@@ -40,10 +42,17 @@ void paintit::paintit_main::execute()
 	{
 		std::string line, error;
 
-		std::cout << "> ";
-		getline(std::cin, line);
+		std::cout << "$ ";
+
+		colorspace(getline(std::cin, line), NONE, LIGHT_BLUE);
 
 		error = executeCommand(line);
+
+		std::vector<std::string> command_whitelist =
+		{
+			"size", "color", "help", "scolor", "mode", "save", "listcolor",
+			"purge", "history", "exit", "math"
+		};
 		
 		if(error != noerror)
 		{
@@ -51,16 +60,22 @@ void paintit::paintit_main::execute()
 		}
 		else
 		{
-			if(current_image->getWidth() != 0 && current_image->getHeight() != 0)
+			std::string command;
+			std::stringstream linestream(line);
+			linestream >> command;
+			if(find(command_whitelist.begin(), command_whitelist.end(), command) == command_whitelist.end())
 			{
-				current_image->saveBmp("editview.bmp");
-				view->updateImage();
+				if(current_image->getWidth() != 0 && current_image->getHeight() != 0)
+				{
+					current_image->savePng("editview.png");
+					view->updateImage();
+				}
 			}
 			history.emplace_back(line);
 		}
 	}
 	SDL_WaitThread(viewerthread, &threadReturnValue);
-	remove("editview.bmp");
+	remove("editview.png");
 }
 
 std::string paintit::paintit_main::executeCommand(const std::string& line)
@@ -71,6 +86,11 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 	{
 		std::string command;
 		commandLine >> command;
+		if(line.find("/?") != std::string::npos)
+		{
+			paintit::command_help(command);
+			return noerror;
+		}
 		if(lib::cstrcmp(command, "for") == 0)
 		{
 			std::string var, aux, line;
@@ -115,6 +135,14 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 				//view->updateImage(*current_image);
 			}
 		}
+		else if(lib::cstrcmp(command, "math") == 0)
+		{
+			std::string sentence, result;
+			getline(commandLine, sentence);
+			result = lib::smath<float>(sentence);
+			lib::remove_trailling(result);
+			std::cout << " = " << std::fixed << result << std::endl;
+		}
 		else if(lib::cstrcmp(command, "image") == 0)
 		{
 			int largura, altura;
@@ -131,15 +159,39 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 		}
 		else if(lib::cstrcmp(command, "mode") == 0)
 		{
-			if(pincel->mode == penc::modes::normal)
+			int mode = pincel->mode;
+			mode++;
+			if(mode == penc::Modes::last_mode)
 			{
-				std::cout << "modo atual: aditivo" << std::endl;
-				pincel->mode = penc::modes::additive;
+				mode = 0;
 			}
-			else if(pincel->mode == penc::modes::additive)
+			pincel->mode = static_cast<penc::Modes>(mode);
+			switch(pincel->mode)
 			{
-				std::cout << "modo atual: normal" << std::endl;
-				pincel->mode = penc::modes::normal;
+				case penc::Modes::normal:
+				{
+					std::cout << "modo atual: normal" << std::endl;
+					break;
+				}
+				case penc::Modes::average:
+				{
+					std::cout << "modo atual: média" << std::endl;
+					break;
+				}
+				case penc::Modes::additive:
+				{
+					std::cout << "modo atual: aditivo" << std::endl;
+					break;
+				}
+				case penc::Modes::subtractive:
+				{
+					std::cout << "modo atual: subtrativo" << std::endl;
+					break;
+				}
+				case penc::Modes::last_mode:
+				{
+					break;
+				}
 			}
 		}
 		else if(lib::cstrcmp(command, "size") == 0)
@@ -239,7 +291,7 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 			std::string cor;
 			commandLine >> cor;
 			if(!commandLine.fail())
-				pincel->scolor(cor);
+				return_iferror(pincel->scolor(cor));
 		}
 		else if(lib::cstrcmp(command, "sclear") == 0)
 		{
@@ -352,6 +404,10 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 			if(!commandLine.fail())
 				return_iferror(paintit::processing::desaturate(*current_image, vermelho, verde, azul));
 		}
+		else if(lib::cstrcmp(command, "makenoise") == 0)
+		{
+			return_iferror(paintit::processing::makenoise(*current_image));
+		}
 		else if(lib::cstrcmp(command, "listcolor") == 0)
 		{
 			listcolor();
@@ -379,7 +435,17 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 		}
 		else if(lib::cstrcmp(command, "help") == 0)
 		{
-			help();
+			unsigned page;
+			commandLine >> page;
+			if(!commandLine.fail())
+			{
+				help(page);
+			}
+			else
+			{
+				help();
+			}
+			return noerror;
 		}
 		else if(lib::cstrcmp(command, "purge") == 0)
 		{
@@ -405,7 +471,7 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 
 		if(commandLine.fail())
 		{
-			return commandHelp(command);
+			return command_sintax(command);
 		}
 	}
 	return noerror;

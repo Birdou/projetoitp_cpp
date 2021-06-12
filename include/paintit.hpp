@@ -22,7 +22,7 @@ namespace paintit
 	{
 	public:
 		static paintit::ppm* current_image;
-		paintit::penc* pincel;
+		static paintit::penc* pincel;
 
 		paintit_main();
 		~paintit_main();

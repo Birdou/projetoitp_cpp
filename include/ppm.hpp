@@ -50,6 +50,8 @@ namespace paintit
 		bool hasInitialized() const;
 		bool ready() const;
 
+		paintit::rgb* getColor(size_t x, size_t y);
+
 		paintit::rgb* operator[](size_t column);
 		paintit::rgb& operator()(size_t x, size_t y);
 		

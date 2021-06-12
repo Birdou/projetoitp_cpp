@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstring>
+#include <algorithm>
 #include <exception>
 #include <cstdlib>
 
@@ -80,6 +81,92 @@ namespace lib
 
 	void replaceAll(std::string& str, const std::string& from, const std::string& to);
 	void replaceWhole(std::string& str, const std::string& from, const std::string& to);
+
+	void remove_trailling(std::string& number);
+
+	template<typename type>
+	void catchoperator(char operation, std::string& expression)
+	{
+		std::stringstream stream(expression);
+		type stoperand, ndoperand;
+		size_t firstg, secondg;
+		char _operator;
+
+		while(1)
+		{
+			if(expression.find(operation) == std::string::npos)
+			{
+				break;
+			}
+
+			firstg = stream.tellg();
+
+			stream >> stoperand;
+			if(stream.fail()) break;
+			stream >> _operator;
+			if(stream.fail()) break;
+
+			if(_operator == operation)
+			{
+				stream >> ndoperand;
+				if(stream.fail()) break;
+				secondg = stream.tellg();
+				switch(operation)
+				{
+					case '+':
+					{
+						expression.replace(expression.begin() + firstg, expression.begin() + secondg, std::to_string(stoperand + ndoperand));
+						break;
+					}
+					case '-':
+					{
+						expression.replace(expression.begin() + firstg, expression.begin() + secondg, std::to_string(stoperand - ndoperand));
+						break;
+					}
+					case '*':
+					{
+						expression.replace(expression.begin() + firstg, expression.begin() + secondg, std::to_string(stoperand * ndoperand));
+						break;
+					}
+					case '/':
+					{
+						expression.replace(expression.begin() + firstg, expression.begin() + secondg, std::to_string(stoperand / ndoperand));
+						break;
+					}
+					/*case '%':
+					{
+						expression.replace(expression.begin() + firstg, expression.begin() + secondg, std::to_string(stoperand % ndoperand));
+						break;
+					}*/
+					default:
+					{
+						std::cout << "Operador " << _operator << " não foi definido" << std::endl;
+					}
+				}
+				stream.str(expression);
+				stream.clear();
+				stream.seekg(0);
+			}
+		}
+	}
+
+	template<typename type>
+	std::string smath(std::string expression)
+	{
+		size_t first, last;
+		while((first = expression.find_last_of('(')) != std::string::npos)
+		{
+			last = expression.find_first_of(')', first);
+			expression.replace(expression.begin() + first, expression.begin() + last + 1, smath<type>(expression.substr(first + 1, last - first - 1)));
+		}
+
+		catchoperator<type>('*', expression);
+		catchoperator<type>('/', expression);
+		catchoperator<type>('-', expression);
+		catchoperator<type>('+', expression);
+
+		return expression;
+	}
 }
 
 #endif

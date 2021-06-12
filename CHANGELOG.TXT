@@ -1,0 +1,9 @@
+[11/06/2021]
+- Agora novas modificações serão documentadas em CHANGELOG.TXT
+- Agora é mostrada a cor do pincel na tela
+- Foram implementadas 4 formas de pincelagem e junto a isso, foi alterado a forma de interação com os pixels da imagem.
+- A resolução da imagem será mostrada no canto inferior direito do Viewer
+- O modo de pincelagem também será mostrado no Viewer
+- Ao passar o mouse pelos pixels da imagem, a o código da cor sob ele será mostrada, assim como ela própria e sua coordenada.
+- Foi implementado um ambiente matemático que reconhece sentenças simples entre as quatro operações, detectando agrupamentos com parênteses
+- Mudança na identação do código

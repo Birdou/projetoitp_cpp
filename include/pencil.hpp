@@ -22,20 +22,23 @@ namespace paintit
 		double getSize() const;
 		void setSize(double size);
 
-		void scolor(const std::string& colorname);
+		std::string scolor(const std::string& colorname);
 
-		enum modes
+		void touch(paintit::rgb& color) const;
+
+		enum Modes
 		{
 			normal,
-			additive
+			average,
+			additive,
+			subtractive,
+			last_mode
 		};
-		modes mode = normal;
+		Modes mode = normal;
 
 	private:
 		paintit::rgb color;
 		double size;
-
-
 	};
 }
 

@@ -11,9 +11,9 @@ namespace paintit
 	class rgb
 	{
 	private:
-		short r;
-		short g;
-		short b;
+		short r = 0;
+		short g = 0;
+		short b = 0;
 
 	public:
 		rgb();
@@ -25,19 +25,19 @@ namespace paintit
 		rgb bw(const rgb& color);
 		rgb antigue(const rgb& color);
 
-		rgb operator+(double num);
-		rgb operator-(double num);
-		rgb operator*(double num);
-		rgb operator/(double num);
+		rgb operator+(double num) const;
+		rgb operator-(double num) const;
+		rgb operator*(double num) const;
+		rgb operator/(double num) const;
 
-		rgb operator+(const rgb& color);
-		rgb operator-(const rgb& color);
-		rgb operator*(const rgb& color);
-		rgb operator/(const rgb& color);
+		rgb operator+(const rgb& color) const;
+		rgb operator-(const rgb& color) const;
+		rgb operator*(const rgb& color) const;
+		rgb operator/(const rgb& color) const;
 
 		rgb& operator=(const rgb& color);
-		bool operator==(const rgb& color);
-		bool operator!=(const rgb& color);
+		bool operator==(const rgb& color) const;
+		bool operator!=(const rgb& color) const;
 
 		short getR() const;
 		void setR(short);

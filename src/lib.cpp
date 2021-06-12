@@ -83,8 +83,8 @@ size_t lib::chartcount(const std::string& string)
 
 Uint32 lib::getpixel(SDL_Surface *surface, int x, int y)
 {
-    int bpp = surface->format->BytesPerPixel;
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+	int bpp = surface->format->BytesPerPixel;
+	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
 
 	switch (bpp)
 	{
@@ -122,7 +122,7 @@ void lib::replaceWhole(std::string& str, const std::string& from, const std::str
 {
 	std::istringstream iss(str);
 	std::ostringstream oss;
-	
+
 	std::string word;
 	while(!iss.eof())
 	{
@@ -145,4 +145,13 @@ void lib::replaceWhole(std::string& str, const std::string& from, const std::str
 	}
 	str = oss.str();
 
+}
+
+void lib::remove_trailling(std::string& number)
+{
+	number = number.substr(0, number.find_last_not_of('0') + 1);
+	if(number.find('.') == number.size() - 1)
+	{
+		number = number.substr(0, number.size() - 1);
+	}
 }

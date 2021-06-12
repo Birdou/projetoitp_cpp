@@ -264,6 +264,9 @@ std::string paintit::processing::pixelize(paintit::ppm& image, int px)
 
 std::string paintit::processing::guev(paintit::ppm& image, double scale)
 {
+	if(!image.hasInitialized())
+		return uninitialized_image_exception;
+
 	int lim = 255 *(scale / 100);
 	for(size_t i = 0; i < image.getWidth(); ++i)
 	{
@@ -277,6 +280,25 @@ std::string paintit::processing::guev(paintit::ppm& image, double scale)
 			{
 				image[i][j] = paintit::rgb(0, 0, 0);
 			}
+		}
+	}
+
+	return noerror;
+}
+
+std::string paintit::processing::makenoise(paintit::ppm& image)
+{
+	if(!image.hasInitialized())
+		return uninitialized_image_exception;
+
+	std::default_random_engine gen(rd());
+	std::uniform_int_distribution<int> dist(0, 255);
+
+	for(size_t i = 0; i < image.getWidth(); ++i)
+	{
+		for(size_t j = 0; j < image.getHeight(); ++j)
+		{
+			image[i][j] = paintit::rgb(dist(gen), dist(gen), dist(gen));
 		}
 	}
 

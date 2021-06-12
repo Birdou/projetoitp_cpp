@@ -3,6 +3,7 @@
 #define PAINTIT_PROCESSING_HPP
 
 #include <string>
+#include <random>
 
 #include "ppm.hpp"
 #include "coord.hpp"
@@ -11,6 +12,7 @@ namespace paintit
 {
 	namespace processing
 	{
+		static std::random_device rd;
 		std::string grayscale	(paintit::ppm& image);
 		std::string sepia		(paintit::ppm& image);
 		std::string negative	(paintit::ppm& image);
@@ -26,6 +28,7 @@ namespace paintit
 		std::string glitch		(paintit::ppm& image, int scale, double angle);
 		std::string rbglitch	(paintit::ppm& image, int scale, double angle);
 		std::string pixelize	(paintit::ppm& image, int px);
+		std::string makenoise	(paintit::ppm& image);
 	}
 }
 

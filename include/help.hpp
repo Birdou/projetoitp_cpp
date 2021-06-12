@@ -8,9 +8,10 @@
 namespace paintit
 {
 	void listcolor();
-	void help();
 
-	std::string commandHelp(const std::string& command);
+	void help(unsigned page = 1);
+	std::string command_help(const std::string& command);
+	std::string command_sintax(const std::string& command);
 }
 
 #endif

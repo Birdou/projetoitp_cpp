@@ -64,11 +64,18 @@ public:
 		AdjustPosition();
 	}
 
+	void SetOnlyPosition(int x, int y)
+	{
+		xpos = x;
+		ypos = y;
+	}
+
 	void SetAtSide(const std::string& labelname)
 	{
 		aligned_left = aligned_center = aligned_right = false;
 		sideside = true;
 		sidelabel = paintit::viewer::manager.getEntityByID(labelname);
+		AdjustPosition();
 	}
 
 	void SetAlignment(Alignment alignment)
@@ -95,6 +102,23 @@ public:
 		}
 	}
 
+	void setWidth(size_t width)
+	{
+		position.w = width;
+	}
+	size_t getWidth()
+	{
+		return position.w;
+	}
+	void setHeight(size_t height)
+	{
+		position.h = height;
+	}
+	size_t getHeight()
+	{
+		return position.h;
+	}
+
 	void AdjustPosition()
 	{
 		if(labelTexture == NULL) 
@@ -118,10 +142,22 @@ public:
 			}
 			else if(aligned_right)
 			{
-				position.x = xpos - (position.w);
+				position.x = xpos - position.w;
 			}
 			position.y = ypos;
 		}
+	}
+
+	void updateBackground()
+	{
+		if(labelTexture != NULL)
+			SDL_DestroyTexture(labelTexture);
+
+		SDL_Surface* surf = TTF_RenderText_Shaded(AssetManager::GetFont(labelFont), labelText.c_str(), foreground, background);
+		labelTexture = SDL_CreateTextureFromSurface(paintit::viewer::renderer, surf);
+		SDL_FreeSurface(surf);
+
+		SDL_SetTextureAlphaMod(labelTexture, alpha);
 	}
 
 	void SetLabelTextSolid(const std::string& text)
@@ -150,7 +186,7 @@ public:
 		if(labelTexture != NULL)
 			SDL_DestroyTexture(labelTexture);
 
-		SDL_Surface* surf = TTF_RenderText_Shaded(AssetManager::GetFont(labelFont), text.c_str(), foreground, background);
+		SDL_Surface* surf = TTF_RenderUTF8_Shaded(AssetManager::GetFont(labelFont), text.c_str(), foreground, background);
 		labelTexture = SDL_CreateTextureFromSurface(paintit::viewer::renderer, surf);
 		SDL_FreeSurface(surf);
 

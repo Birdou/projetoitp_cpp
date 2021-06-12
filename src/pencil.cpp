@@ -31,7 +31,37 @@ void paintit::penc::setSize(double size)
 	this->size = size;
 }
 
-void paintit::penc::scolor(const std::string& colorname)
+std::string paintit::penc::scolor(const std::string& colorname)
 {
-	this->color.getrgbval(colorname);
+	return this->color.getrgbval(colorname);
+}
+void paintit::penc::touch(paintit::rgb& surfaceColor) const
+{
+	switch(this->mode)
+	{
+		case penc::Modes::normal:
+		{
+			surfaceColor = this->color;
+			break;
+		}
+		case penc::Modes::average:
+		{
+			surfaceColor = (surfaceColor + this->color) / 2;
+			break;
+		}
+		case penc::Modes::additive:
+		{
+			surfaceColor = surfaceColor + this->color;
+			break;
+		}
+		case penc::Modes::subtractive:
+		{
+			surfaceColor = surfaceColor - this->color;
+			break;
+		}
+		case penc::Modes::last_mode:
+		{
+			break;
+		}
+	}
 }

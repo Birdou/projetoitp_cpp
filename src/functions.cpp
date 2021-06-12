@@ -1,26 +1,18 @@
 
 #include "functions.hpp"
 
-std::string paintit::functions::draw(paintit::ppm& image, const penc& pincel, size_t PX, size_t PY) noexcept
+std::string paintit::functions::draw(paintit::ppm& image, const penc& pincel, ssize_t PX, ssize_t PY) noexcept
 {
 	double area = (pincel.getSize() - 1) / 2;
-	for(size_t i = PX - area; i <= PX + area; ++i)
+	for(ssize_t i = PX - area; i <= PX + area; ++i)
 	{
-		for(size_t j = PY - area; j <= PY + area; ++j)
+		for(ssize_t j = PY - area; j <= PY + area; ++j)
 		{
-			if(i >= image.getWidth() || j >= image.getHeight())
+			if(i >= 0 && j >= 0)
 			{
-				continue;
-			}
-			else
-			{
-				if(pincel.mode == penc::modes::normal)
+				if(i < static_cast<ssize_t>(image.getWidth()) && j < static_cast<ssize_t>(image.getHeight()))
 				{
-					image[i][j] = pincel.getColor();
-				}
-				else if(pincel.mode == penc::modes::additive)
-				{
-					image[i][j] = (image[i][j] + pincel.getColor()) / 2;
+					pincel.touch(image[i][j]);
 				}
 			}
 		}
@@ -82,7 +74,7 @@ std::string paintit::functions::elipse(paintit::ppm& image, const penc& pincel, 
 		{
 			double posx = pow(i - pos.x, 2);
 			double posy = pow(j - pos.y, 2);
-			double raz =(posx / quadh) +(posy / quadw);
+			double raz = (posx / quadh) + (posy / quadw);
 			int x = i - pos.x, y = j - pos.y;
 			int xr =(x * cos(lib::rad(angle) ) ) -(y * sin(lib::rad(angle) ) ), yr =(x * sin(lib::rad(angle) ) ) +(y * cos(lib::rad(angle) ) );
 			if(p == 0)
@@ -116,7 +108,9 @@ std::string paintit::functions::global(paintit::ppm& image, const penc& pincel, 
 		for(size_t j = 0; j < image.getHeight(); ++j)
 		{
 			if(image[i][j] == cor)
-				image[i][j] = pincel.getColor();
+			{
+				pincel.touch(image[i][j]);
+			}
 		}
 	}
 
@@ -262,9 +256,9 @@ std::string paintit::functions::circle(paintit::ppm& image, const penc& pincel, 
 			}
 			else
 			{
-				if(round(sqrt(pow(x, 2)+ pow(y, 2))) == raio)
+				if(round(sqrt(pow(x, 2) + pow(y, 2))) == raio)
 				{
-					draw(image, pincel, pos.x+x, pos.y+y);
+					draw(image, pincel, pos.x + x, pos.y + y);
 				}
 			}
 		}
@@ -290,7 +284,7 @@ std::string paintit::functions::fill(paintit::ppm& image, const penc& pincel, co
 			return insufficient_memory_exception;
 
 		map[0] = pos;
-		image[map[0].x][map[0].y] = pincel.getColor();
+		pincel.touch(image[map[0].x][map[0].y]);
 		for(size_t pixel = 0; pixel < cont; ++pixel)
 		{
 			current_x = map[pixel].x;
@@ -301,7 +295,7 @@ std::string paintit::functions::fill(paintit::ppm& image, const penc& pincel, co
 				if(image[current_x - 1][current_y] == cor && image[current_x - 1][current_y] != pincel.getColor())
 				{
 					map[cont] = coord(current_x - 1, current_y);
-					image[current_x - 1][current_y] = pincel.getColor();
+					pincel.touch(image[current_x - 1][current_y]);
 					cont++;
 				}
 			}
@@ -310,7 +304,7 @@ std::string paintit::functions::fill(paintit::ppm& image, const penc& pincel, co
 				if(image[current_x + 1][current_y] == cor && image[current_x + 1][current_y] != pincel.getColor())
 				{
 					map[cont] = coord(current_x + 1, current_y);
-					image[current_x + 1][current_y] = pincel.getColor();
+					pincel.touch(image[current_x + 1][current_y]);
 					cont++;
 				}
 			}
@@ -319,7 +313,7 @@ std::string paintit::functions::fill(paintit::ppm& image, const penc& pincel, co
 				if(image[current_x][current_y - 1] == cor && image[current_x][current_y - 1] != pincel.getColor())
 				{
 					map[cont] = coord(current_x, current_y - 1);
-					image[current_x][current_y - 1] = pincel.getColor();
+					pincel.touch(image[current_x][current_y - 1]);
 					cont++;
 				}
 			}
@@ -328,7 +322,7 @@ std::string paintit::functions::fill(paintit::ppm& image, const penc& pincel, co
 				if(image[current_x][current_y + 1] == cor && image[current_x][current_y + 1] != pincel.getColor())
 				{
 					map[cont] = coord(current_x, current_y + 1);
-					image[current_x][current_y + 1] = pincel.getColor();
+					pincel.touch(image[current_x][current_y + 1]);
 					cont++;
 				}
 			}
