@@ -1,7 +1,7 @@
 **Habilitar a quebra de texto**
 
 Por Felipe Sena de Medeiros.
-Última versão: 05/05/2021 às 15:39
+Última versão: 18/06/2021 às 22:18
 
 ### Descrição geral e recursos
 
