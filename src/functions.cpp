@@ -332,3 +332,27 @@ std::string paintit::functions::fill(paintit::ppm& image, const penc& pincel, co
 
 	return noerror;
 }
+
+std::string paintit::functions::crop(paintit::ppm& image, const paintit::coord& P1, const paintit::coord& P2)
+{
+	if(!image.hasInitialized())
+		return uninitialized_image_exception;
+
+	paintit::ppm cropped_image;
+	size_t width = P2.x - P1.x;
+	size_t height= P2.y - P1.y;
+	cropped_image.image(width, height);
+	for(size_t i = 0; i < width; ++i)
+	{
+		size_t targetX = i + P1.x;
+		for(size_t j = 0; j < height; ++j)
+		{
+			size_t targetY = j + P1.y;
+			if(targetX < image.getWidth() || targetY < image.getHeight())
+				cropped_image[i][j] = image[i + P1.x][j + P1.y];
+		}
+	}
+	image = cropped_image;
+
+	return noerror;
+}

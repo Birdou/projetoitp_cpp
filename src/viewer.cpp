@@ -96,6 +96,7 @@ void paintit::viewer::init()
 		auto& scale_label = assetManager->CreateLabel("scale_label", Vector2D(width - 10, height - 20), "", "arial_14", white);
 			scale_label.getComponent<UILabel>().SetAlignment(UILabel::right);
 
+	Debug("initialized everything successfully." << std::endl);
 }
 
 void paintit::viewer::handleEvents()

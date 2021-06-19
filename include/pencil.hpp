@@ -4,7 +4,7 @@
 
 #include <string>
 
-#include "color.hpp"
+#include "rgb.hpp"
 #include "lib.hpp"
 
 namespace paintit

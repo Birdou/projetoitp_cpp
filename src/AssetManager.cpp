@@ -11,9 +11,9 @@ AssetManager::AssetManager(Manager* man) : manager(man)
 
 AssetManager::~AssetManager()
 {
-	std::cout << "AssetManager:: Destroy textures..." << std::endl;
+	Debug("AssetManager:: Destroy textures..." << std::endl);
 	for(auto t : textures) SDL_DestroyTexture(t.second);
-	std::cout << "AssetManager:: Close fonts..." << std::endl;
+	Debug("AssetManager:: Close fonts..." << std::endl);
 	for(auto t : fonts) TTF_CloseFont(t.second);
 }
 

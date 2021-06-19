@@ -1,36 +1,25 @@
 
-#If you are using SDL2
-SDL_COMP_FLAGS=-IY:/MinGW/include/SDL2 # -I[full path to SDL2 include folder]. Default: -IC:/MinGW/include/SDL2
+SDL_COMP_FLAGS=-IY:/MinGW/include/SDL2
 SDL_LINK_FLAGS=-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 ################################
-#executable name (without extension)
 FILE=prog
 
-#main file name (where the main function is)
 MAINFILE=main
 
-#source files extension (.c, .cpp)
 SOURCE_EXT=.cpp
-#header files extension (.h, .hpp)
 HEADER_EXT=.hpp
 
-#folder that contains the source files (.c, .cpp)
 SRCFOLDER=src
-#folder that contains the header files (.h, .hpp)
 INCFOLDER=include
-#folder where the binary files (.o) will be compiled
 OBJFOLDER=objects
 
-#compiler that will be used to build binaries and link the executable (gcc, g++, c++...)
 COMPILER=g++
 
-#flags that will be used when compiling binaries
-COMPILATION_FLAGS=-Wall -Wextra -pedantic ${SDL_COMP_FLAGS} -g
-#flags that will be used when linking the executable
-LINKER_FLAGS=${SDL_LINK_FLAGS} -LY:/MinGW/include/bib -lcolor
-#environment defines (to use with #ifdef for example)
-DEFINES=DEBUG
+COMPILATION_FLAGS=-Wall -Wextra -pedantic ${SDL_COMP_FLAGS}
+LINKER_FLAGS=${SDL_LINK_FLAGS}
+
+DEFINES=#DEBUG
 ################################
 
 PERCENT=0

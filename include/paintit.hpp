@@ -11,7 +11,7 @@
 #include "ppm.hpp"
 #include "help.hpp"
 #include "viewer.hpp"
-#include "color.hpp"
+#include "rgb.hpp"
 #include "coord.hpp"
 #include "functions.hpp"
 #include "processing.hpp"
@@ -33,6 +33,14 @@ namespace paintit
 
 		void init();
 		void execute();
+		void updateImage()
+		{
+			view->updateImage();
+		}
+		void updateImage(paintit::ppm& image)
+		{
+			view->updateImage(image);
+		}
 		std::string executeCommand(const std::string& command);
 
 	private:
@@ -48,8 +56,11 @@ namespace paintit
 			Uint32 frameStart;
 			int frameTime;
 
+			Debug("creating an instance of viewer at " << FPS << " FPS..." << std::endl);
 			view = new viewer("PaintIt PPM Viewer (by Felipe Sena)", 128, 72, 600, 400, false);
+			Debug("initializing viewer..." << std::endl);
 			view->init();
+			Debug("entering viewer main loop..." << std::endl);
 			while(view->isRunning)
 			{
 				frameStart = SDL_GetTicks();

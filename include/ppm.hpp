@@ -13,7 +13,6 @@
 #include <exception>
 
 #include "pencil.hpp"
-#include "color.hpp"
 
 namespace paintit
 {
@@ -70,8 +69,8 @@ namespace paintit
 		 * @return Retorna uma mensagem de erro. Caso seja executada sem erros, retorna uma string vazia.
 		 */
 		std::string image(size_t width, size_t height);
-		std::string open(const std::string& file_path);
-		std::string save(const std::string& file_extension, const std::string& file_path);
+		std::string open(const char* file_path);
+		std::string save(const char* file_extension, const char* file_path);
 		std::string clear(const paintit::rgb& color);
 		std::string rotate();
 		std::string invert();
@@ -80,9 +79,9 @@ namespace paintit
 
 		//Specific input operations.
 
-		std::string openP3(const std::string& file_path);
-		std::string openP6(const std::string& file_path);
-		std::string openOther(const std::string& file_path);
+		std::string openP3(const char* file_path);
+		std::string openP6(const char* file_path);
+		std::string openOther(const char* file_path);
 		
 		//Specific output operations.
 		

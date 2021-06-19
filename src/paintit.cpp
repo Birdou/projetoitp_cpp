@@ -3,9 +3,9 @@
 
 #include <sstream>
 #include <algorithm>
-#include <bib/color.h>
 
 #include "viewer.hpp"
+#include "color.hpp"
 
 paintit::ppm* paintit::paintit_main::current_image = nullptr;
 paintit::penc* paintit::paintit_main::pincel = nullptr;
@@ -25,13 +25,14 @@ paintit::paintit_main::~paintit_main()
 
 void paintit::paintit_main::init()
 {
-	current_image = new paintit::ppm(0, 0, nullptr);
+	current_image = new paintit::ppm();
 	pincel = new paintit::penc(paintit::rgb(0, 0, 0), 1);
 
+	Debug("creating viewer thread..." << std::endl);
 	viewerthread = SDL_CreateThread(sdlstart, "sdlstart", (void*)NULL);
 
 	this->isRunning = true;
-	std::cout << "Digite \"help\" para ver lista de commands" << std::endl;
+	std::cout << "Digite \"help\" para ver lista de comandos" << std::endl;
 }
 
 void paintit::paintit_main::execute()
@@ -51,7 +52,7 @@ void paintit::paintit_main::execute()
 		std::vector<std::string> command_whitelist =
 		{
 			"size", "color", "help", "scolor", "mode", "save", "listcolor",
-			"purge", "history", "exit", "math"
+			"purge", "history", "exit", "math", "update"
 		};
 		
 		if(error != noerror)
@@ -132,8 +133,11 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 					stop *= variable.second.finished;
 				}
 				Debug(tmpLine << "... " << executeCommand(tmpLine) << std::endl);
-				//view->updateImage(*current_image);
 			}
+		}
+		else if(lib::cstrcmp(command, "update") == 0)
+		{
+			view->updateImage(*current_image);
 		}
 		else if(lib::cstrcmp(command, "math") == 0)
 		{
@@ -229,6 +233,13 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 			if(!commandLine.fail())
 				return_iferror(paintit::functions::line(*current_image, *pincel, inicio, fim));
 		}
+		else if(lib::cstrcmp(command, "crop") == 0)
+		{
+			paintit::coord inicio, fim;
+			commandLine >> inicio.x >> inicio.y >> fim.x >> fim.y;
+			if(!commandLine.fail())
+				return_iferror(paintit::functions::crop(*current_image, inicio, fim));
+		}
 		else if(lib::cstrcmp(command, "polygon") == 0)
 		{
 			size_t lados;
@@ -275,7 +286,7 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 			getline(commandLine, arquivo);
 
 			if(!commandLine.fail())
-				return_iferror(current_image->save(formato, arquivo));
+				return_iferror(current_image->save(formato.c_str(), arquivo.c_str()));
 		}
 		else if(lib::cstrcmp(command, "open") == 0)
 		{
@@ -284,7 +295,7 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 			getline(commandLine, arquivo);
 
 			if(!commandLine.fail())
-				return_iferror(current_image->open(arquivo));
+				return_iferror(current_image->open(arquivo.c_str()));
 		}
 		else if(lib::cstrcmp(command, "scolor") == 0)
 		{

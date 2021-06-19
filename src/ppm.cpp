@@ -6,19 +6,25 @@
 #include "viewer.hpp"
 
 paintit::ppm::ppm()
-{}
+{
+	Debug("creating an image by default" << std::endl);
+}
 
 paintit::ppm::ppm(size_t width, size_t height, paintit::rgb** color):
 width(width), height(height), color(color)
-{}
+{
+	Debug("creating an image with specified width, height and color matrix..." << std::endl);
+}
 
 paintit::ppm::ppm(size_t width, size_t height)
 {
+	Debug("creating an image with specified width and height..." << std::endl);
 	this->image(width, height);
 }
 
 paintit::ppm::ppm(const ppm& image)
 {
+	Debug("creating an image that is a copy of another..." << std::endl);
 	this->image(image.width, image.height);
 
 	for(size_t i = 0; i < this->width; ++i) 
@@ -32,6 +38,7 @@ paintit::ppm::ppm(const ppm& image)
 
 paintit::ppm::~ppm()
 {
+	Debug("calling ppm erase..." << std::endl);
 	erase();
 }
 
@@ -151,10 +158,31 @@ std::string paintit::ppm::image(size_t width, size_t height)
 	this->width = width;
 	this->height = height;
 
-	this->color = new paintit::rgb*[width];
+	this->color = new (std::nothrow) paintit::rgb*[width];
+	if(!this->color)
+	{
+		Debug("couldn't allocate image in memory." << std::endl);
+		return insufficient_memory_exception;
+	}
 	for(size_t i = 0; i < width; ++i)
 	{
-		this->color[i] = new paintit::rgb[height];
+		this->color[i] = new (std::nothrow) paintit::rgb[height];
+		if(!this->color[i])
+		{
+			Debug("couldn't allocate image in memory." << std::endl);
+			Debug("freeing memory..." << std::endl);
+			for(size_t ii = 0; ii < i; ++ii)
+			{
+				delete[] this->color[ii];
+			}
+			delete[] this->color;
+
+			this->width = 0;
+			this->height = 0;
+			this->color = nullptr;
+
+			return insufficient_memory_exception;
+		}
 	}
 
 	isReady = true;
@@ -273,7 +301,7 @@ std::string paintit::ppm::saveBmp(const std::string& arquivo)
 	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror; 
 }
 
-std::string paintit::ppm::save(const std::string& format, const std::string& arquivo)
+std::string paintit::ppm::save(const char* format, const char* arquivo)
 {
 	if(this->color == nullptr)
 		return uninitialized_image_exception;
@@ -302,7 +330,7 @@ std::string paintit::ppm::save(const std::string& format, const std::string& arq
 	return invalid_format_exception;
 }
 
-std::string paintit::ppm::openP3(const std::string& arquivo)
+std::string paintit::ppm::openP3(const char* arquivo)
 {
 	std::ifstream file;
 	file.open(arquivo);
@@ -354,7 +382,7 @@ std::string paintit::ppm::openP3(const std::string& arquivo)
 	return noerror;
 }
 
-std::string paintit::ppm::openP6(const std::string& arquivo)
+std::string paintit::ppm::openP6(const char* arquivo)
 {
 	std::fstream file;
 	file.open(arquivo, std::ios_base::in);
@@ -406,9 +434,9 @@ std::string paintit::ppm::openP6(const std::string& arquivo)
 	return noerror;
 }
 
-std::string paintit::ppm::openOther(const std::string& arquivo)
+std::string paintit::ppm::openOther(const char* arquivo)
 {
-	SDL_Surface* surface = IMG_Load(arquivo.c_str());
+	SDL_Surface* surface = IMG_Load(arquivo);
 
 	this->image(surface->w, surface->h);
 
@@ -427,19 +455,19 @@ std::string paintit::ppm::openOther(const std::string& arquivo)
 	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror;
 }
 
-std::string paintit::ppm::open(const std::string& arquivo)
+std::string paintit::ppm::open(const char* arquivo)
 {
 	std::string error;
 
 	error = openP3(arquivo);
 	if(error != invalid_format_exception)
 	{
-		return error;
+		//return error;
 	}
 	error = openP6(arquivo);
 	if(error != invalid_format_exception)
 	{
-		return error;
+		//return error;
 	}
 	return openOther(arquivo);
 }

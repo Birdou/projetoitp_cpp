@@ -7,3 +7,6 @@
 - Ao passar o mouse pelos pixels da imagem, a o código da cor sob ele será mostrada, assim como ela própria e sua coordenada.
 - Foi implementado um ambiente matemático que reconhece sentenças simples entre as quatro operações, detectando agrupamentos com parênteses
 - Mudança na identação do código
+- Agora é possível usar a função crop para cortar a imagem em uma seção retangular determinada por dois pontos
+- Mudanças em colors.hpp: agora usando windows.h
+- Mudanças nas mensagens de depuração e do modo que são exibidas (em tom amarelo claro)

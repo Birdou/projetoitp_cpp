@@ -29,8 +29,10 @@
 			return errorlevel;				\
 	}
 
+#include "color.hpp"
+
 #ifdef DEBUG
-#define Debug(x) std::cout << x
+#define Debug(x) colorspace(std::cout << x, NONE, LIGHT_YELLOW)
 #else
 #define Debug(x)
 #endif
