@@ -1,0 +1,330 @@
+\hypertarget{classUILabel}{}\doxysection{U\+I\+Label Class Reference}
+\label{classUILabel}\index{UILabel@{UILabel}}
+
+
+Inheritance diagram for U\+I\+Label\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=153pt]{classUILabel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for U\+I\+Label\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=164pt]{classUILabel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classUILabel_a9c11c834a15c3f330325ff0a248d1acd}\label{classUILabel_a9c11c834a15c3f330325ff0a248d1acd}} 
+enum \mbox{\hyperlink{classUILabel_a9c11c834a15c3f330325ff0a248d1acd}{label\+Type}} \{ {\bfseries solid}, 
+{\bfseries shaded}, 
+{\bfseries blended}
+ \}
+\begin{DoxyCompactList}\small\item\em \{ enum\+\_\+description \} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classUILabel_a2f8ed243d9d2af6cb14d77d946020131}\label{classUILabel_a2f8ed243d9d2af6cb14d77d946020131}} 
+enum \mbox{\hyperlink{classUILabel_a2f8ed243d9d2af6cb14d77d946020131}{Alignment}} \{ {\bfseries left}, 
+{\bfseries center}, 
+{\bfseries right}
+ \}
+\begin{DoxyCompactList}\small\item\em \{ enum\+\_\+description \} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classUILabel_a2ba3a24e6aaf223284fb7bef60785d52}{U\+I\+Label}} (int xpos, int ypos, const std\+::string \&label\+Text, const std\+::string \&label\+Font, S\+D\+L\+\_\+\+Color foreground, \mbox{\hyperlink{classUILabel_a9c11c834a15c3f330325ff0a248d1acd}{label\+Type}} type=blended)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classUILabel_a0a122405866786e8e5ebc7d61103084d}\label{classUILabel_a0a122405866786e8e5ebc7d61103084d}} 
+\mbox{\hyperlink{classUILabel_a0a122405866786e8e5ebc7d61103084d}{$\sim$\+U\+I\+Label}} ()
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_a625f8750243f467367b32e418f33a853}{Set\+Label\+Text}} (const std\+::string \&text, bool force=false)
+\begin{DoxyCompactList}\small\item\em Sets the label text. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_aac848f65cdfac587f705d7a340027b21}{Set\+Alpha}} (int alpha)
+\begin{DoxyCompactList}\small\item\em Sets the alpha. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_ad2d157d853c5515cf4ed0dda83489eb6}{Set\+Background}} (const S\+D\+L\+\_\+\+Color \&background)
+\begin{DoxyCompactList}\small\item\em Sets the background. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_a80e30f66089380248f43a5ce352c1d7d}{Set\+Background}} (const \mbox{\hyperlink{classpaintit_1_1rgb}{paintit\+::rgb}} \&background)
+\begin{DoxyCompactList}\small\item\em Sets the background. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_a145295f473f1f1be364129c1aaa572b0}{Set\+Foreground}} (const S\+D\+L\+\_\+\+Color \&foreground)
+\begin{DoxyCompactList}\small\item\em Sets the foreground. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_a3d89653bc3137fb01aedbe8533672348}{Set\+Position}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Sets the position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_af72f93a0eddf01fca23bd5631db79ac3}{Force\+Position}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_ada4681ce53c5bdbfb0e7bf7d68128884}{Set\+At\+Side}} (const std\+::string \&labelname)
+\begin{DoxyCompactList}\small\item\em Sets the at side. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_a514e1b7433d224509ebff4abf64f6c5c}{Set\+Alignment}} (\mbox{\hyperlink{classUILabel_a2f8ed243d9d2af6cb14d77d946020131}{Alignment}} alignment)
+\begin{DoxyCompactList}\small\item\em Sets the alignment. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_aaa9de5800c31fde3a039e5a0713a5422}{set\+Width}} (size\+\_\+t width)
+\begin{DoxyCompactList}\small\item\em Sets the width. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classUILabel_a347dfbcbb2e5df6a7b80ccaacd898e7a}{get\+Width}} () const
+\begin{DoxyCompactList}\small\item\em Gets the width. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classUILabel_a16d80568a9a674becbb054a6261e6cc2}{set\+Height}} (size\+\_\+t height)
+\begin{DoxyCompactList}\small\item\em Sets the height. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classUILabel_aa63c4b0be82ab07f5e0f68169d73c149}{get\+Height}} () const
+\begin{DoxyCompactList}\small\item\em Gets the height. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classUILabel_a0e9b01ace14f6f45fa8edfac5fc146d1}\label{classUILabel_a0e9b01ace14f6f45fa8edfac5fc146d1}} 
+void \mbox{\hyperlink{classUILabel_a0e9b01ace14f6f45fa8edfac5fc146d1}{Adjust\+Position}} ()
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classUILabel_ababb4c577a8d7b91f51018f88d1bc80c}\label{classUILabel_ababb4c577a8d7b91f51018f88d1bc80c}} 
+void \mbox{\hyperlink{classUILabel_ababb4c577a8d7b91f51018f88d1bc80c}{disable}} ()
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classUILabel_ab5cb696e35490a2cfb2b92ffe8bbfd7a}\label{classUILabel_ab5cb696e35490a2cfb2b92ffe8bbfd7a}} 
+void \mbox{\hyperlink{classUILabel_ab5cb696e35490a2cfb2b92ffe8bbfd7a}{enable}} ()
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classUILabel_a607f0dde6dc5d906364488808b54e1e4}{is\+Enabled}} () const
+\begin{DoxyCompactList}\small\item\em Determines if enabled. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classUILabel_a8fecc78f44c35b5ac5fc631b6fd7b5fc}\label{classUILabel_a8fecc78f44c35b5ac5fc631b6fd7b5fc}} 
+void \mbox{\hyperlink{classUILabel_a8fecc78f44c35b5ac5fc631b6fd7b5fc}{draw}} () override
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classUILabel_a2ba3a24e6aaf223284fb7bef60785d52}\label{classUILabel_a2ba3a24e6aaf223284fb7bef60785d52}} 
+\index{UILabel@{UILabel}!UILabel@{UILabel}}
+\index{UILabel@{UILabel}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{UILabel()}{UILabel()}}
+{\footnotesize\ttfamily U\+I\+Label\+::\+U\+I\+Label (\begin{DoxyParamCaption}\item[{int}]{xpos,  }\item[{int}]{ypos,  }\item[{const std\+::string \&}]{label\+Text,  }\item[{const std\+::string \&}]{label\+Font,  }\item[{S\+D\+L\+\_\+\+Color}]{foreground,  }\item[{\mbox{\hyperlink{classUILabel_a9c11c834a15c3f330325ff0a248d1acd}{label\+Type}}}]{type = {\ttfamily blended} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em xpos} & The xpos \\
+\hline
+\mbox{\texttt{ in}}  & {\em ypos} & The ypos \\
+\hline
+\mbox{\texttt{ in}}  & {\em label\+Text} & The label text \\
+\hline
+\mbox{\texttt{ in}}  & {\em label\+Font} & The label font \\
+\hline
+\mbox{\texttt{ in}}  & {\em foreground} & The foreground \\
+\hline
+\mbox{\texttt{ in}}  & {\em type} & The type \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classUILabel_af72f93a0eddf01fca23bd5631db79ac3}\label{classUILabel_af72f93a0eddf01fca23bd5631db79ac3}} 
+\index{UILabel@{UILabel}!ForcePosition@{ForcePosition}}
+\index{ForcePosition@{ForcePosition}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{ForcePosition()}{ForcePosition()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Force\+Position (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\{ function\+\_\+description \} 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & \{ parameter\+\_\+description \} \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & \{ parameter\+\_\+description \} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_aa63c4b0be82ab07f5e0f68169d73c149}\label{classUILabel_aa63c4b0be82ab07f5e0f68169d73c149}} 
+\index{UILabel@{UILabel}!getHeight@{getHeight}}
+\index{getHeight@{getHeight}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{getHeight()}{getHeight()}}
+{\footnotesize\ttfamily size\+\_\+t U\+I\+Label\+::get\+Height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the height. 
+
+\begin{DoxyReturn}{Returns}
+The height. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classUILabel_a347dfbcbb2e5df6a7b80ccaacd898e7a}\label{classUILabel_a347dfbcbb2e5df6a7b80ccaacd898e7a}} 
+\index{UILabel@{UILabel}!getWidth@{getWidth}}
+\index{getWidth@{getWidth}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{getWidth()}{getWidth()}}
+{\footnotesize\ttfamily size\+\_\+t U\+I\+Label\+::get\+Width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Gets the width. 
+
+\begin{DoxyReturn}{Returns}
+The width. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classUILabel_a607f0dde6dc5d906364488808b54e1e4}\label{classUILabel_a607f0dde6dc5d906364488808b54e1e4}} 
+\index{UILabel@{UILabel}!isEnabled@{isEnabled}}
+\index{isEnabled@{isEnabled}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{isEnabled()}{isEnabled()}}
+{\footnotesize\ttfamily bool U\+I\+Label\+::is\+Enabled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Determines if enabled. 
+
+\begin{DoxyReturn}{Returns}
+True if enabled, False otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classUILabel_a514e1b7433d224509ebff4abf64f6c5c}\label{classUILabel_a514e1b7433d224509ebff4abf64f6c5c}} 
+\index{UILabel@{UILabel}!SetAlignment@{SetAlignment}}
+\index{SetAlignment@{SetAlignment}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetAlignment()}{SetAlignment()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Alignment (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classUILabel_a2f8ed243d9d2af6cb14d77d946020131}{Alignment}}}]{alignment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the alignment. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em alignment} & The alignment \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_aac848f65cdfac587f705d7a340027b21}\label{classUILabel_aac848f65cdfac587f705d7a340027b21}} 
+\index{UILabel@{UILabel}!SetAlpha@{SetAlpha}}
+\index{SetAlpha@{SetAlpha}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetAlpha()}{SetAlpha()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Alpha (\begin{DoxyParamCaption}\item[{int}]{alpha }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the alpha. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em alpha} & The alpha \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_ada4681ce53c5bdbfb0e7bf7d68128884}\label{classUILabel_ada4681ce53c5bdbfb0e7bf7d68128884}} 
+\index{UILabel@{UILabel}!SetAtSide@{SetAtSide}}
+\index{SetAtSide@{SetAtSide}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetAtSide()}{SetAtSide()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+At\+Side (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{labelname }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the at side. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em labelname} & The labelname \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_a80e30f66089380248f43a5ce352c1d7d}\label{classUILabel_a80e30f66089380248f43a5ce352c1d7d}} 
+\index{UILabel@{UILabel}!SetBackground@{SetBackground}}
+\index{SetBackground@{SetBackground}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetBackground()}{SetBackground()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Background (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classpaintit_1_1rgb}{paintit\+::rgb}} \&}]{background }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the background. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em background} & The background \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_ad2d157d853c5515cf4ed0dda83489eb6}\label{classUILabel_ad2d157d853c5515cf4ed0dda83489eb6}} 
+\index{UILabel@{UILabel}!SetBackground@{SetBackground}}
+\index{SetBackground@{SetBackground}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetBackground()}{SetBackground()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Background (\begin{DoxyParamCaption}\item[{const S\+D\+L\+\_\+\+Color \&}]{background }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the background. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em background} & The background \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_a145295f473f1f1be364129c1aaa572b0}\label{classUILabel_a145295f473f1f1be364129c1aaa572b0}} 
+\index{UILabel@{UILabel}!SetForeground@{SetForeground}}
+\index{SetForeground@{SetForeground}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetForeground()}{SetForeground()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Foreground (\begin{DoxyParamCaption}\item[{const S\+D\+L\+\_\+\+Color \&}]{foreground }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the foreground. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em foreground} & The foreground \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_a16d80568a9a674becbb054a6261e6cc2}\label{classUILabel_a16d80568a9a674becbb054a6261e6cc2}} 
+\index{UILabel@{UILabel}!setHeight@{setHeight}}
+\index{setHeight@{setHeight}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{setHeight()}{setHeight()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::set\+Height (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{height }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the height. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em height} & The height \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_a625f8750243f467367b32e418f33a853}\label{classUILabel_a625f8750243f467367b32e418f33a853}} 
+\index{UILabel@{UILabel}!SetLabelText@{SetLabelText}}
+\index{SetLabelText@{SetLabelText}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetLabelText()}{SetLabelText()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Label\+Text (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text,  }\item[{bool}]{force = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the label text. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em text} & The text \\
+\hline
+\mbox{\texttt{ in}}  & {\em force} & The force \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_a3d89653bc3137fb01aedbe8533672348}\label{classUILabel_a3d89653bc3137fb01aedbe8533672348}} 
+\index{UILabel@{UILabel}!SetPosition@{SetPosition}}
+\index{SetPosition@{SetPosition}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{SetPosition()}{SetPosition()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::\+Set\+Position (\begin{DoxyParamCaption}\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the position. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em x} & The new value \\
+\hline
+\mbox{\texttt{ in}}  & {\em y} & The new value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classUILabel_aaa9de5800c31fde3a039e5a0713a5422}\label{classUILabel_aaa9de5800c31fde3a039e5a0713a5422}} 
+\index{UILabel@{UILabel}!setWidth@{setWidth}}
+\index{setWidth@{setWidth}!UILabel@{UILabel}}
+\doxysubsubsection{\texorpdfstring{setWidth()}{setWidth()}}
+{\footnotesize\ttfamily void U\+I\+Label\+::set\+Width (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{width }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Sets the width. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em width} & The width \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/U\+I\+Label.\+hpp\end{DoxyCompactItemize}

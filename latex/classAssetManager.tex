@@ -1,0 +1,175 @@
+\hypertarget{classAssetManager}{}\doxysection{Asset\+Manager Class Reference}
+\label{classAssetManager}\index{AssetManager@{AssetManager}}
+
+
+This class describes an asset manager.  
+
+
+
+
+{\ttfamily \#include $<$Asset\+Manager.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classAssetManager_a4d44f620fde1d343a0c1823427a828ce}\label{classAssetManager_a4d44f620fde1d343a0c1823427a828ce}} 
+enum \mbox{\hyperlink{classAssetManager_a4d44f620fde1d343a0c1823427a828ce}{Tag}} \{ {\bfseries group\+Labels}
+ \}
+\begin{DoxyCompactList}\small\item\em \{ enum\+\_\+description \} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAssetManager_aedfdae12294f47dba0fe0893c1f5fddc}{Asset\+Manager}} (\mbox{\hyperlink{classManager}{Manager}} $\ast$man)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classAssetManager_a9c89817cbf3516f1451c116e89f47d30}\label{classAssetManager_a9c89817cbf3516f1451c116e89f47d30}} 
+\mbox{\hyperlink{classAssetManager_a9c89817cbf3516f1451c116e89f47d30}{$\sim$\+Asset\+Manager}} ()
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classEntity}{Entity}} \& \mbox{\hyperlink{classAssetManager_a5886a3f3410d486ca04645f4d36ea25f}{Create\+Label}} (const std\+::string \&label\+Name, const \mbox{\hyperlink{classVector2D}{Vector2D}} \&position, const std\+::string \&text, const std\+::string \&font, S\+D\+L\+\_\+\+Color color, short type)
+\begin{DoxyCompactList}\small\item\em Creates a label. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAssetManager_aa3da371e35d9eccf47134cb20090a7a7}{Add\+Texture}} (const std\+::string \&id, char const $\ast$path)
+\begin{DoxyCompactList}\small\item\em Adds a texture. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAssetManager_a2519947c5fe3db3c6401015aafdd3767}{Add\+Font}} (const std\+::string \&id, const std\+::string \&path, int font\+Size)
+\begin{DoxyCompactList}\small\item\em Adds a font. \end{DoxyCompactList}\item 
+S\+D\+L\+\_\+\+Texture $\ast$ \mbox{\hyperlink{classAssetManager_a2c3c8712584c30fd2a1693611586e28d}{Get\+Texture}} (const std\+::string \&id)
+\begin{DoxyCompactList}\small\item\em Gets the texture. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static T\+T\+F\+\_\+\+Font $\ast$ \mbox{\hyperlink{classAssetManager_a2a31459a78b61e8108567f8edbd02af5}{Get\+Font}} (const std\+::string \&id)
+\begin{DoxyCompactList}\small\item\em Gets the font. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classAssetManager_a8c959f7d9e113a3d4a25a9e4fa87f0c9}\label{classAssetManager_a8c959f7d9e113a3d4a25a9e4fa87f0c9}} 
+static std\+::map$<$ std\+::string, T\+T\+F\+\_\+\+Font $\ast$ $>$ {\bfseries fonts}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class describes an asset manager. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classAssetManager_aedfdae12294f47dba0fe0893c1f5fddc}\label{classAssetManager_aedfdae12294f47dba0fe0893c1f5fddc}} 
+\index{AssetManager@{AssetManager}!AssetManager@{AssetManager}}
+\index{AssetManager@{AssetManager}!AssetManager@{AssetManager}}
+\doxysubsubsection{\texorpdfstring{AssetManager()}{AssetManager()}}
+{\footnotesize\ttfamily Asset\+Manager\+::\+Asset\+Manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classManager}{Manager}} $\ast$}]{man }\end{DoxyParamCaption})}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em man} & The man \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAssetManager_a2519947c5fe3db3c6401015aafdd3767}\label{classAssetManager_a2519947c5fe3db3c6401015aafdd3767}} 
+\index{AssetManager@{AssetManager}!AddFont@{AddFont}}
+\index{AddFont@{AddFont}!AssetManager@{AssetManager}}
+\doxysubsubsection{\texorpdfstring{AddFont()}{AddFont()}}
+{\footnotesize\ttfamily void Asset\+Manager\+::\+Add\+Font (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{id,  }\item[{const std\+::string \&}]{path,  }\item[{int}]{font\+Size }\end{DoxyParamCaption})}
+
+
+
+Adds a font. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em id} & The identifier \\
+\hline
+\mbox{\texttt{ in}}  & {\em path} & The path \\
+\hline
+\mbox{\texttt{ in}}  & {\em font\+Size} & The font size \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAssetManager_aa3da371e35d9eccf47134cb20090a7a7}\label{classAssetManager_aa3da371e35d9eccf47134cb20090a7a7}} 
+\index{AssetManager@{AssetManager}!AddTexture@{AddTexture}}
+\index{AddTexture@{AddTexture}!AssetManager@{AssetManager}}
+\doxysubsubsection{\texorpdfstring{AddTexture()}{AddTexture()}}
+{\footnotesize\ttfamily void Asset\+Manager\+::\+Add\+Texture (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{id,  }\item[{char const $\ast$}]{path }\end{DoxyParamCaption})}
+
+
+
+Adds a texture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em id} & The identifier \\
+\hline
+ & {\em path} & The path \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAssetManager_a5886a3f3410d486ca04645f4d36ea25f}\label{classAssetManager_a5886a3f3410d486ca04645f4d36ea25f}} 
+\index{AssetManager@{AssetManager}!CreateLabel@{CreateLabel}}
+\index{CreateLabel@{CreateLabel}!AssetManager@{AssetManager}}
+\doxysubsubsection{\texorpdfstring{CreateLabel()}{CreateLabel()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classEntity}{Entity}} \& Asset\+Manager\+::\+Create\+Label (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{label\+Name,  }\item[{const \mbox{\hyperlink{classVector2D}{Vector2D}} \&}]{position,  }\item[{const std\+::string \&}]{text,  }\item[{const std\+::string \&}]{font,  }\item[{S\+D\+L\+\_\+\+Color}]{color,  }\item[{short}]{type }\end{DoxyParamCaption})}
+
+
+
+Creates a label. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em label\+Name} & The label name \\
+\hline
+\mbox{\texttt{ in}}  & {\em position} & The position \\
+\hline
+\mbox{\texttt{ in}}  & {\em text} & The text \\
+\hline
+\mbox{\texttt{ in}}  & {\em font} & The font \\
+\hline
+\mbox{\texttt{ in}}  & {\em color} & The color \\
+\hline
+\mbox{\texttt{ in}}  & {\em type} & The type\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\{ description\+\_\+of\+\_\+the\+\_\+return\+\_\+value \} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classAssetManager_a2a31459a78b61e8108567f8edbd02af5}\label{classAssetManager_a2a31459a78b61e8108567f8edbd02af5}} 
+\index{AssetManager@{AssetManager}!GetFont@{GetFont}}
+\index{GetFont@{GetFont}!AssetManager@{AssetManager}}
+\doxysubsubsection{\texorpdfstring{GetFont()}{GetFont()}}
+{\footnotesize\ttfamily T\+T\+F\+\_\+\+Font $\ast$ Asset\+Manager\+::\+Get\+Font (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Gets the font. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em id} & The identifier\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The font. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classAssetManager_a2c3c8712584c30fd2a1693611586e28d}\label{classAssetManager_a2c3c8712584c30fd2a1693611586e28d}} 
+\index{AssetManager@{AssetManager}!GetTexture@{GetTexture}}
+\index{GetTexture@{GetTexture}!AssetManager@{AssetManager}}
+\doxysubsubsection{\texorpdfstring{GetTexture()}{GetTexture()}}
+{\footnotesize\ttfamily S\+D\+L\+\_\+\+Texture $\ast$ Asset\+Manager\+::\+Get\+Texture (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{id }\end{DoxyParamCaption})}
+
+
+
+Gets the texture. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em id} & The identifier\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The texture. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/Asset\+Manager.\+hpp\item 
+src/Asset\+Manager.\+cpp\end{DoxyCompactItemize}

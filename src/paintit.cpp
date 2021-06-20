@@ -28,7 +28,7 @@ void paintit::paintit_main::init()
 	current_image = new paintit::ppm();
 	pincel = new paintit::penc(paintit::rgb(0, 0, 0), 1);
 
-	Debug("creating viewer thread..." << std::endl);
+	DebugLog("creating viewer thread...");
 	viewerthread = SDL_CreateThread(sdlstart, "sdlstart", (void*)NULL);
 
 	this->isRunning = true;
@@ -37,15 +37,16 @@ void paintit::paintit_main::init()
 
 void paintit::paintit_main::execute()
 {
-	int threadReturnValue;
 
+
+	SDL_Delay(1000);
 	while(this->isRunning)
 	{
 		std::string line, error;
 
 		std::cout << "$ ";
 
-		colorspace(getline(std::cin, line), NONE, LIGHT_BLUE);
+		colorspace(getline(std::cin, line), fLIGHT_BLUE);
 
 		error = executeCommand(line);
 
@@ -75,6 +76,7 @@ void paintit::paintit_main::execute()
 			history.emplace_back(line);
 		}
 	}
+	int threadReturnValue;
 	SDL_WaitThread(viewerthread, &threadReturnValue);
 	remove("editview.png");
 }
@@ -132,7 +134,9 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 					variable.second.increment();
 					stop *= variable.second.finished;
 				}
-				Debug(tmpLine << "... " << executeCommand(tmpLine) << std::endl);
+				std::string error = executeCommand(tmpLine);
+				DebugMessage(tmpLine << "... " << error);
+				return_iferror(error);
 			}
 		}
 		else if(lib::cstrcmp(command, "update") == 0)

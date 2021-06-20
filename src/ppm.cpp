@@ -7,24 +7,24 @@
 
 paintit::ppm::ppm()
 {
-	Debug("creating an image by default" << std::endl);
+	DebugLog("creating an image by default");
 }
 
 paintit::ppm::ppm(size_t width, size_t height, paintit::rgb** color):
 width(width), height(height), color(color)
 {
-	Debug("creating an image with specified width, height and color matrix..." << std::endl);
+	DebugLog("creating an image with specified width, height and color matrix...");
 }
 
 paintit::ppm::ppm(size_t width, size_t height)
 {
-	Debug("creating an image with specified width and height..." << std::endl);
+	DebugLog("creating an image with specified width and height...");
 	this->image(width, height);
 }
 
 paintit::ppm::ppm(const ppm& image)
 {
-	Debug("creating an image that is a copy of another..." << std::endl);
+	DebugLog("creating an image that is a copy of another...");
 	this->image(image.width, image.height);
 
 	for(size_t i = 0; i < this->width; ++i) 
@@ -38,7 +38,7 @@ paintit::ppm::ppm(const ppm& image)
 
 paintit::ppm::~ppm()
 {
-	Debug("calling ppm erase..." << std::endl);
+	DebugMessage("calling erase()...");
 	erase();
 }
 
@@ -153,7 +153,9 @@ std::string paintit::ppm::image(size_t width, size_t height)
 	this->erase();
 
 	if(height == 0 || width == 0)
+	{
 		return noerror;
+	}
 
 	this->width = width;
 	this->height = height;
@@ -161,7 +163,7 @@ std::string paintit::ppm::image(size_t width, size_t height)
 	this->color = new (std::nothrow) paintit::rgb*[width];
 	if(!this->color)
 	{
-		Debug("couldn't allocate image in memory." << std::endl);
+		DebugWarning("couldn't allocate image in memory.");
 		return insufficient_memory_exception;
 	}
 	for(size_t i = 0; i < width; ++i)
@@ -169,8 +171,8 @@ std::string paintit::ppm::image(size_t width, size_t height)
 		this->color[i] = new (std::nothrow) paintit::rgb[height];
 		if(!this->color[i])
 		{
-			Debug("couldn't allocate image in memory." << std::endl);
-			Debug("freeing memory..." << std::endl);
+			DebugWarning("couldn't allocate image in memory.");
+			DebugLog("freeing memory...");
 			for(size_t ii = 0; ii < i; ++ii)
 			{
 				delete[] this->color[ii];
@@ -476,6 +478,8 @@ std::string paintit::ppm::erase()
 {
 	if(this->color == nullptr)
 		return noerror;
+
+	DebugMessage("erasing image...");
 
 	for(size_t i = 0; i < this->width; ++i)
 	{

@@ -17,22 +17,23 @@ title(title), xpos(xpos), ypos(ypos), width(width), height(height), fullscreen(f
 
 paintit::viewer::~viewer()
 {
+	DebugMessage("delete assetManager");
 	delete assetManager;
 
-	Debug("SDL_Image: Quit" << std::endl);
 	IMG_Quit();
-	Debug("SDL_TTF: Quit" << std::endl);
+	DebugMessage("IMG_Quit:" << IMG_GetError());
 	TTF_Quit();
+	DebugMessage("TTF_Quit:" << TTF_GetError());
 
-	Debug("SDL: Destroy renderer" << std::endl);
 	SDL_DestroyRenderer(renderer);
-	Debug("SDL: Destroy window" << std::endl);
+	DebugMessage("SDL_DestroyRenderer:" << SDL_GetError());
 	SDL_DestroyWindow(window);
-	Debug("SDL: Destroy texture" << std::endl);
+	DebugMessage("SDL_DestroyWindow:" << SDL_GetError());
 	SDL_DestroyTexture(imageTexture);
+	DebugMessage("SDL_DestroyTexture:" << SDL_GetError());
 
 	//FIXME Why this is throwing exceptions?
-	/*Debug("SDL: Quit" << std::endl);
+	/*Debug("SDL: Quit");
 	SDL_Quit();*/
 
 }
@@ -55,16 +56,17 @@ void paintit::viewer::init()
 		isRunning = true;
 		if(TTF_Init() != 0)
 		{
-			std::cout << SDL_GetError() << std::endl;
+			DebugError("TTF_Init: " << TTF_GetError());
 		}
-		if(IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF) != 0)
+		int flags = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF;
+		if(IMG_Init(flags) != flags)
 		{
-			std::cout << SDL_GetError() << std::endl;
+			DebugError("IMG_Init: " << IMG_GetError());
 		}
 	}
 	else
 	{
-		std::cout << SDL_GetError() << std::endl;
+		DebugError("SDL_Init: " << SDL_GetError());
 	}
 
 	assetManager->AddFont("arial_14", "assets/fonts/arial.ttf", 14);
@@ -75,28 +77,32 @@ void paintit::viewer::init()
 	SDL_Color green = {0, 255, 0, 255};
 	SDL_Color blue = {0, 0, 255, 255};
 
-		assetManager->CreateLabel("color_label", Vector2D(10, height - 55), " ", "arial_14", black);
-		auto& redlabel = assetManager->CreateLabel("red_color_label", Vector2D(10, height - 40), " ", "arial_14", black);
+
+		auto& redlabel = assetManager->CreateLabel("red_color_label", Vector2D(10, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
 			redlabel.getComponent<UILabel>().SetBackground(red);
-		auto& greenlabel = assetManager->CreateLabel("green_color_label", Vector2D(20, height - 40), " ", "arial_14", black);
+		auto& greenlabel = assetManager->CreateLabel("green_color_label", Vector2D(20, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
 			greenlabel.getComponent<UILabel>().SetBackground(green);
 			greenlabel.getComponent<UILabel>().SetAtSide("red_color_label");
-		auto& bluelabel = assetManager->CreateLabel("blue_color_label", Vector2D(30, height - 40), " ", "arial_14", black);
+		auto& bluelabel = assetManager->CreateLabel("blue_color_label", Vector2D(30, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
 			bluelabel.getComponent<UILabel>().SetBackground(blue);
 			bluelabel.getComponent<UILabel>().SetAtSide("green_color_label");
 
-		assetManager->CreateLabel("pencil_mode_label", Vector2D(10, 10), "", "arial_14", white);
-		auto& pencil_color_label = assetManager->CreateLabel("pencil_color_label", Vector2D(10, 30), " ", "arial_14", black);
+		auto& colorlabel = assetManager->CreateLabel("color_label", Vector2D(10, height - 55), " ", "arial_14", black, UILabel::labelType::shaded);
+			colorlabel.getComponent<UILabel>().setWidth(redlabel.getComponent<UILabel>().getWidth() + greenlabel.getComponent<UILabel>().getWidth() + bluelabel.getComponent<UILabel>().getWidth());
+
+		assetManager->CreateLabel("pencil_mode_label", Vector2D(10, 10), "", "arial_14", white, UILabel::labelType::shaded);
+		auto& pencil_color_label = assetManager->CreateLabel("pencil_color_label", Vector2D(10, 30), " ", "arial_14", black, UILabel::labelType::shaded);
 		pencil_color_label.getComponent<UILabel>().setWidth(30);
 		pencil_color_label.getComponent<UILabel>().setHeight(30);
 
-		auto& resolution_label = assetManager->CreateLabel("resolution_label", Vector2D(width - 10, height - 40), "", "arial_14", white);
+		auto& resolution_label = assetManager->CreateLabel("resolution_label", Vector2D(width - 10, height - 40), "", "arial_14", white, UILabel::labelType::shaded);
 			resolution_label.getComponent<UILabel>().SetAlignment(UILabel::right);
-		assetManager->CreateLabel("position_label", Vector2D(10, height - 20), "", "arial_14", white);
-		auto& scale_label = assetManager->CreateLabel("scale_label", Vector2D(width - 10, height - 20), "", "arial_14", white);
+		assetManager->CreateLabel("position_label", Vector2D(10, height - 20), "", "arial_14", white, UILabel::labelType::shaded);
+		auto& scale_label = assetManager->CreateLabel("scale_label", Vector2D(width - 10, height - 20), "", "arial_14", white, UILabel::labelType::shaded);
 			scale_label.getComponent<UILabel>().SetAlignment(UILabel::right);
 
-	Debug("initialized everything successfully." << std::endl);
+
+	DebugLog("everything was initialized correctly.");
 }
 
 void paintit::viewer::handleEvents()
@@ -234,22 +240,22 @@ void paintit::viewer::update()
 	{
 		case penc::Modes::normal:
 		{
-			pencil_mode_label.SetLabelTextShaded("modo: normal");
+			pencil_mode_label.SetLabelText("modo: normal");
 			break;
 		}
 		case penc::Modes::average:
 		{
-			pencil_mode_label.SetLabelTextShaded("modo: média");
+			pencil_mode_label.SetLabelText("modo: média");
 			break;
 		}
 		case penc::Modes::additive:
 		{
-			pencil_mode_label.SetLabelTextShaded("modo: aditivo");
+			pencil_mode_label.SetLabelText("modo: aditivo");
 			break;
 		}
 		case penc::Modes::subtractive:
 		{
-			pencil_mode_label.SetLabelTextShaded("modo: subtrativo");
+			pencil_mode_label.SetLabelText("modo: subtrativo");
 			break;
 		}
 		case penc::Modes::last_mode:
@@ -259,10 +265,8 @@ void paintit::viewer::update()
 	}
 	auto& pencil_color_label = manager.getEntityByID("pencil_color_label")->getComponent<UILabel>();
 	paintit::rgb pencilColor = paintit_main::pincel->getColor();
-	pencil_color_label.background.r = pencilColor.getR();
-	pencil_color_label.background.g = pencilColor.getG();
-	pencil_color_label.background.b = pencilColor.getB();
-	pencil_color_label.updateBackground();
+
+	pencil_color_label.SetBackground(pencilColor);
 
 	if(x >= 0 && static_cast<size_t>(x) < paintit_main::current_image->getWidth() &&
 		y >= 0 && static_cast<size_t>(y) < paintit_main::current_image->getHeight())
@@ -274,32 +278,29 @@ void paintit::viewer::update()
 		paintit::rgb* color = paintit_main::current_image->getColor(x, y);
 		if(color != nullptr)
 		{
-			redlabelcomponent.SetLabelTextShaded(std::to_string(color->getR()));
-			greenlabelcomponent.SetLabelTextShaded(std::to_string(color->getG()));
-			bluelabelcomponent.SetLabelTextShaded(std::to_string(color->getB()));
-			colorlabelcomponent.background.r = color->getR();
-			colorlabelcomponent.background.g = color->getG();
-			colorlabelcomponent.background.b = color->getB();
-			colorlabelcomponent.updateBackground();
+			redlabelcomponent.SetLabelText(std::to_string(color->getR()));
+			greenlabelcomponent.SetLabelText(std::to_string(color->getG()));
+			bluelabelcomponent.SetLabelText(std::to_string(color->getB()));
+			colorlabelcomponent.SetBackground(*color);
 			colorlabelcomponent.setWidth(redlabelcomponent.getWidth() + greenlabelcomponent.getWidth() + bluelabelcomponent.getWidth());
 		}
 		redlabelcomponent.SetPosition(10, height - 40);
 		greenlabelcomponent.AdjustPosition();
 		bluelabelcomponent.AdjustPosition();
-		colorlabelcomponent.SetOnlyPosition(10, height - 54);
+		colorlabelcomponent.ForcePosition(10, height - 54);
 	}
 
 	auto resolution_label 		= manager.getEntityByID("resolution_label");
 	auto position_label 		= manager.getEntityByID("position_label");
 	auto scale_label 			= manager.getEntityByID("scale_label");
 
-	position_label->getComponent<UILabel>().SetLabelTextShaded(std::to_string(x) + " " + std::to_string(y));
+	position_label->getComponent<UILabel>().SetLabelText(std::to_string(x) + " " + std::to_string(y));
 	position_label->getComponent<UILabel>().SetPosition(10, height - 20);
 
-	scale_label->getComponent<UILabel>().SetLabelTextShaded("x" + std::to_string(xyscale));
+	scale_label->getComponent<UILabel>().SetLabelText("x" + std::to_string(xyscale));
 	scale_label->getComponent<UILabel>().SetPosition(width - 10, height - 20);
 
-	resolution_label->getComponent<UILabel>().SetLabelTextShaded(std::to_string(paintit_main::current_image->getWidth()) + "x" + std::to_string(paintit_main::current_image->getHeight()));
+	resolution_label->getComponent<UILabel>().SetLabelText(std::to_string(paintit_main::current_image->getWidth()) + "x" + std::to_string(paintit_main::current_image->getHeight()));
 	resolution_label->getComponent<UILabel>().SetPosition(width - 10, height - 40);
 
 	manager.refresh();

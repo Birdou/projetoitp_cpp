@@ -33,7 +33,20 @@ namespace paintit
         static AssetManager* assetManager;
 
     public:
+        /**
+         * @brief      Constructs a new instance.
+         *
+         * @param[in]  title       The title
+         * @param[in]  xpos        The xpos
+         * @param[in]  ypos        The ypos
+         * @param[in]  width       The width
+         * @param[in]  height      The height
+         * @param[in]  fullscreen  The fullscreen
+         */
         viewer(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen);
+        /**
+         * @brief      Destroys the object.
+         */
         ~viewer();
 
         static Manager manager;
@@ -41,13 +54,33 @@ namespace paintit
         static SDL_Event event;
         static bool isRunning;
 
+        /**
+         * @brief      Initializes the object.
+         */
         void init();
 
+        /**
+         * @brief      { function_description }
+         */
         void updateImage();
+        /**
+         * @brief      { function_description }
+         *
+         * @param      <unnamed>  { parameter_description }
+         */
         void updateImage(paintit::ppm&);
 
+        /**
+         * @brief      { function_description }
+         */
         void handleEvents();
+        /**
+         * @brief      Updates the object.
+         */
         void update();
+        /**
+         * @brief      { function_description }
+         */
         void draw();
     };
 }

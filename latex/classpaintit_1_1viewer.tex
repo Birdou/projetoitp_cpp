@@ -1,0 +1,103 @@
+\hypertarget{classpaintit_1_1viewer}{}\doxysection{paintit\+::viewer Class Reference}
+\label{classpaintit_1_1viewer}\index{paintit::viewer@{paintit::viewer}}
+
+
+Collaboration diagram for paintit\+::viewer\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=171pt]{classpaintit_1_1viewer__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classpaintit_1_1viewer_a38df8289f6bff1f82c535c6518f11280}{viewer}} (const std\+::string \&title, int xpos, int ypos, int width, int height, bool fullscreen)
+\begin{DoxyCompactList}\small\item\em Constructs a new instance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_a48ab163acb5d099d71f580e74466b946}\label{classpaintit_1_1viewer_a48ab163acb5d099d71f580e74466b946}} 
+\mbox{\hyperlink{classpaintit_1_1viewer_a48ab163acb5d099d71f580e74466b946}{$\sim$viewer}} ()
+\begin{DoxyCompactList}\small\item\em Destroys the object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_a42e842e4834027950b5d6645178316ab}\label{classpaintit_1_1viewer_a42e842e4834027950b5d6645178316ab}} 
+void \mbox{\hyperlink{classpaintit_1_1viewer_a42e842e4834027950b5d6645178316ab}{init}} ()
+\begin{DoxyCompactList}\small\item\em Initializes the object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_a1b9d9bf09ff312f93f7225052d1fb8de}\label{classpaintit_1_1viewer_a1b9d9bf09ff312f93f7225052d1fb8de}} 
+void \mbox{\hyperlink{classpaintit_1_1viewer_a1b9d9bf09ff312f93f7225052d1fb8de}{update\+Image}} ()
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classpaintit_1_1viewer_aa617578c5d87f59b0f651e5b343a4d64}{update\+Image}} (\mbox{\hyperlink{classpaintit_1_1ppm}{paintit\+::ppm}} \&)
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_a4e94be8ba451d06b09e859ca5dea6846}\label{classpaintit_1_1viewer_a4e94be8ba451d06b09e859ca5dea6846}} 
+void \mbox{\hyperlink{classpaintit_1_1viewer_a4e94be8ba451d06b09e859ca5dea6846}{handle\+Events}} ()
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_a4742103034806085da8220cfe6296ace}\label{classpaintit_1_1viewer_a4742103034806085da8220cfe6296ace}} 
+void \mbox{\hyperlink{classpaintit_1_1viewer_a4742103034806085da8220cfe6296ace}{update}} ()
+\begin{DoxyCompactList}\small\item\em Updates the object. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_a1a9c9a9f965da58b5a5974ce436a4c09}\label{classpaintit_1_1viewer_a1a9c9a9f965da58b5a5974ce436a4c09}} 
+void \mbox{\hyperlink{classpaintit_1_1viewer_a1a9c9a9f965da58b5a5974ce436a4c09}{draw}} ()
+\begin{DoxyCompactList}\small\item\em \{ function\+\_\+description \} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_af62675114782b91f9537ccad8b0a0d2d}\label{classpaintit_1_1viewer_af62675114782b91f9537ccad8b0a0d2d}} 
+static \mbox{\hyperlink{classManager}{Manager}} {\bfseries manager}
+\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_aaa071126eaad252418d0a6cead0a1595}\label{classpaintit_1_1viewer_aaa071126eaad252418d0a6cead0a1595}} 
+static S\+D\+L\+\_\+\+Renderer $\ast$ {\bfseries renderer} = nullptr
+\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_ad5471b165eb76fab29679824e4e540aa}\label{classpaintit_1_1viewer_ad5471b165eb76fab29679824e4e540aa}} 
+static S\+D\+L\+\_\+\+Event {\bfseries event}
+\item 
+\mbox{\Hypertarget{classpaintit_1_1viewer_aca2eccc97e9ae73f5d16e4997e852a21}\label{classpaintit_1_1viewer_aca2eccc97e9ae73f5d16e4997e852a21}} 
+static bool {\bfseries is\+Running} = false
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classpaintit_1_1viewer_a38df8289f6bff1f82c535c6518f11280}\label{classpaintit_1_1viewer_a38df8289f6bff1f82c535c6518f11280}} 
+\index{paintit::viewer@{paintit::viewer}!viewer@{viewer}}
+\index{viewer@{viewer}!paintit::viewer@{paintit::viewer}}
+\doxysubsubsection{\texorpdfstring{viewer()}{viewer()}}
+{\footnotesize\ttfamily paintit\+::viewer\+::viewer (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{title,  }\item[{int}]{xpos,  }\item[{int}]{ypos,  }\item[{int}]{width,  }\item[{int}]{height,  }\item[{bool}]{fullscreen }\end{DoxyParamCaption})}
+
+
+
+Constructs a new instance. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em title} & The title \\
+\hline
+\mbox{\texttt{ in}}  & {\em xpos} & The xpos \\
+\hline
+\mbox{\texttt{ in}}  & {\em ypos} & The ypos \\
+\hline
+\mbox{\texttt{ in}}  & {\em width} & The width \\
+\hline
+\mbox{\texttt{ in}}  & {\em height} & The height \\
+\hline
+\mbox{\texttt{ in}}  & {\em fullscreen} & The fullscreen \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classpaintit_1_1viewer_aa617578c5d87f59b0f651e5b343a4d64}\label{classpaintit_1_1viewer_aa617578c5d87f59b0f651e5b343a4d64}} 
+\index{paintit::viewer@{paintit::viewer}!updateImage@{updateImage}}
+\index{updateImage@{updateImage}!paintit::viewer@{paintit::viewer}}
+\doxysubsubsection{\texorpdfstring{updateImage()}{updateImage()}}
+{\footnotesize\ttfamily void paintit\+::viewer\+::update\+Image (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classpaintit_1_1ppm}{paintit\+::ppm}} \&}]{image }\end{DoxyParamCaption})}
+
+
+
+\{ function\+\_\+description \} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em $<$unnamed$>$} & \{ parameter\+\_\+description \} \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/viewer.\+hpp\item 
+src/viewer.\+cpp\end{DoxyCompactItemize}

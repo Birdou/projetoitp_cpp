@@ -32,9 +32,51 @@
 #include "color.hpp"
 
 #ifdef DEBUG
-#define Debug(x) colorspace(std::cout << x, NONE, LIGHT_YELLOW)
+	#ifndef NODEBUG
+		#define DebugMessage(x) std::cout << colorstream("[DEBUG] " << typeid(*this).name() << "::" << __func__ << ": " << x, fDARK_GRAY) << std::endl
+		#define DebugMessageS(x) std::cout << colorstream("[DEBUG] " << __func__ << ": " << x, fDARK_GRAY) << std::endl
+	#else
+		#define DebugMessage(x)
+		#define DebugMessageS(x)
+	#endif
+	#ifndef NOLOG
+		#define DebugLog(x) std::cout << colorstream("[LOG] " << typeid(*this).name() << "::" << __func__ << ": " << x, fLIGHT_GREEN) << std::endl
+		#define DebugLogS(x) std::cout << colorstream("[LOG] " << __func__ << ": " << x, fLIGHT_GREEN) << std::endl
+	#else
+		#define DebugLog(x)
+		#define DebugLogS(x)
+	#endif
+	#ifndef NOWARNING
+		#define DebugWarning(x) std::cout << colorstream("[WARN] " << typeid(*this).name() << "::" << __func__ << ": " << x, fYELLOW) << std::endl
+		#define DebugWarningS(x) std::cout << colorstream("[WARN] " << __func__ << ": " << x, fYELLOW) << std::endl
+	#else
+		#define DebugWarning(x)
+		#define DebugWarningS(x)
+	#endif
+	#ifndef NOERROR
+		#define DebugError(x) std::cout << colorstream("[ERROR] " << typeid(*this).name() << "::" << __func__ << ": " << x, fRED) << std::endl
+		#define DebugErrorS(x) std::cout << colorstream("[ERROR] " << __func__ << ": " << x, fRED) << std::endl
+	#else
+		#define DebugError(x)
+		#define DebugErrorS(x)
+	#endif
+	#define DebugCritical(x) std::cout << colorstream("[CRITICAL] " << typeid(*this).name() << "::" << __func__ << ": " << x, bWHITE << fRED) << std::endl
+	#define DebugCriticalS(x) std::cout << colorstream("[CRITICAL] " << __func__ << ": " << x, bWHITE << fRED) << std::endl
 #else
-#define Debug(x)
+#define DebugMessage(x)
+#define DebugMessageS(x)
+
+#define DebugLog(x)
+#define DebugLogS(x)
+
+#define DebugWarning(x)
+#define DebugWarningS(x)
+
+#define DebugError(x)
+#define DebugErrorS(x)
+
+#define DebugCritical(x)
+#define DebugCriticalS(x)
 #endif
 
 #define CLS system("cls")
@@ -45,31 +87,114 @@ namespace lib
 	#define PI 3.1415927
 	#endif
 	
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  num   The number
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	long int fat(int num);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  n     { parameter_description }
+	 * @param[in]  i     { parameter_description }
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	long int bin(int n, int i);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  deg   The degrees
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	double rad(double deg);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  word  The word
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	std::string stolower(const std::string& word);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  string1  The string 1
+	 * @param[in]  string2  The string 2
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	int cstrcmp(const std::string& string1, const std::string& string2);
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  letter  The letter
+	 * @param[in]  vect    The vect
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	bool isany(const char letter, const std::string& vect);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  word  The word
+	 * @param[in]  vect  The vect
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	bool isany(const std::string& word, const std::string& vect);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  string  The string
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	size_t chartcount(const std::string& string);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param      surface  The surface
+	 * @param[in]  x        { parameter_description }
+	 * @param[in]  y        { parameter_description }
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	Uint32 getpixel(SDL_Surface *surface, int x, int y);
 	
+	/**
+	 * @brief      This class describes a variable.
+	 */
 	class var
 	{
 	public:
 		ssize_t target, step, value;
 		bool finished = false;
+		/**
+		 * @brief      Constructs a new instance.
+		 *
+		 * @param[in]  start  The start
+		 * @param[in]  end    The end
+		 * @param[in]  step   The step
+		 */
 		var(ssize_t start, ssize_t end, ssize_t step):
 			target(end), step(step), value(start)
 		{}
+
+		/**
+		 * @brief      { function_description }
+		 */
 		void increment()
 		{
 			if((value >= target && step > 0) || (value <= target && step < 0))
@@ -81,11 +206,38 @@ namespace lib
 		}
 	};
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param      str   The string
+	 * @param[in]  from  The from
+	 * @param[in]  to    { parameter_description }
+	 */
 	void replaceAll(std::string& str, const std::string& from, const std::string& to);
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param      str   The string
+	 * @param[in]  from  The from
+	 * @param[in]  to    { parameter_description }
+	 */
 	void replaceWhole(std::string& str, const std::string& from, const std::string& to);
 
+	/**
+	 * @brief      Removes a trailling.
+	 *
+	 * @param      number  The number
+	 */
 	void remove_trailling(std::string& number);
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  operation   The operation
+	 * @param      expression  The expression
+	 *
+	 * @tparam     type        { description }
+	 */
 	template<typename type>
 	void catchoperator(char operation, std::string& expression)
 	{
@@ -152,6 +304,15 @@ namespace lib
 		}
 	}
 
+	/**
+	 * @brief      { function_description }
+	 *
+	 * @param[in]  expression  The expression
+	 *
+	 * @tparam     type        { description }
+	 *
+	 * @return     { description_of_the_return_value }
+	 */
 	template<typename type>
 	std::string smath(std::string expression)
 	{

@@ -98,6 +98,7 @@ void paintit::help(unsigned page)
 		"circle",
 		"clear",
 		"color",
+		"crop",
 		"curve",
 		"darken",
 		"desaturate",

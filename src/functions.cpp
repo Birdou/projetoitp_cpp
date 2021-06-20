@@ -43,6 +43,7 @@ std::string paintit::functions::curve(paintit::ppm& image, const penc& pincel, c
 {
 	if(!image.hasInitialized())
 		return uninitialized_image_exception;
+
 	int n = pontos.size() - 1;
 	for(float t = 0; t <= 1; t += 0.0001) 
 	{
