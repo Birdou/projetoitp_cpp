@@ -3,6 +3,16 @@
 
 #include <sstream>
 #include <algorithm>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+//#include <windows.h>
+
+#if defined(_WIN32)
+#define CreateDir(x) system("mkdir "#x)
+#elif defined(unix)
+#define CreateDir(x) system("mkdir -p "#x)
+#endif
 
 #include "viewer.hpp"
 #include "color.hpp"
@@ -18,9 +28,27 @@ paintit::paintit_main::paintit_main()
 
 paintit::paintit_main::~paintit_main()
 {
+	DebugMessage("destroying image...");
 	delete current_image;
+	DebugMessage("destroying pencil...");
 	delete pincel;
+	DebugMessage("destroying viewer...");
 	delete view;
+
+	DebugMessage("destroying temporary files...");
+	for(int i = 1; i <= maxinteraction; ++i)
+	{
+		std::string path("./history/image" + std::to_string(i) + ".png");
+		DebugMessage("removing " << path << "...");
+		remove(path.c_str());
+	}
+	DebugMessage("removing editview.png...");
+	remove("editview.png");
+
+	int threadReturnValue;
+	DebugMessage("waiting for thread...");
+	SDL_WaitThread(viewerthread, &threadReturnValue);
+	DebugMessage("thread returned " << threadReturnValue);
 }
 
 void paintit::paintit_main::init()
@@ -37,55 +65,115 @@ void paintit::paintit_main::init()
 
 void paintit::paintit_main::execute()
 {
-
-
 	SDL_Delay(1000);
+	
 	while(this->isRunning)
 	{
-		std::string line, error;
-
-		std::cout << "$ ";
-
-		colorspace(getline(std::cin, line), fLIGHT_BLUE);
-
-		error = executeCommand(line);
-
 		std::vector<std::string> command_whitelist =
 		{
 			"size", "color", "help", "scolor", "mode", "save", "listcolor",
 			"purge", "history", "exit", "math", "update"
 		};
-		
+		std::string line;
+
+		std::cout << "$ ";
+
+		colorspace(getline(std::cin, line), fLIGHT_BLUE);
+		std::string command, error;
+		std::stringstream linestream(line);
+		linestream >> command;
+
+		error = executeCommand(line);
 		if(error != noerror)
 		{
 			std::cout << error << std::endl;
 		}
 		else
 		{
-			std::string command;
-			std::stringstream linestream(line);
-			linestream >> command;
 			if(find(command_whitelist.begin(), command_whitelist.end(), command) == command_whitelist.end())
 			{
 				if(current_image->getWidth() != 0 && current_image->getHeight() != 0)
 				{
-					current_image->savePng("editview.png");
+					std::string error;
+					error = current_image->savePng("editview.png");
+					DebugLog("savePng(\"editview.png\"):" << error);
+					
+					if(lib::cstrcmp(command, "undo") != 0 && lib::cstrcmp(command, "redo") != 0)
+					{
+						if(interaction < maxinteraction)
+						{
+							for(int i = interaction + 1; i <= maxinteraction; ++i)
+							{
+								std::string path("./history/image" + std::to_string(i) + ".png");
+								DebugLog(path << " is now unreachable");
+								remove(path.c_str());
+							}
+							maxinteraction = interaction;
+						}
+						std::string path("./history/image" + std::to_string(interaction + 1) + ".png");
+						
+						int errorlevel = CreateDir("./history/");
+						if(errorlevel == 0 || errorlevel == 1)
+						{
+							error = current_image->savePng(path);
+							DebugLog("savePng(" << path << "):" << error);
+							interaction++;
+						}
+						else
+						{
+							interaction = 0;
+							DebugError("couldn't create/access history directory.");
+						}	
+					}
+					maxinteraction = std::max(interaction, maxinteraction);
 					view->updateImage();
 				}
 			}
 			history.emplace_back(line);
 		}
 	}
-	int threadReturnValue;
-	SDL_WaitThread(viewerthread, &threadReturnValue);
-	remove("editview.png");
 }
 
-std::string paintit::paintit_main::executeCommand(const std::string& line)
+std::string paintit::paintit_main::undo()
+{
+	if(interaction <= 1)
+		return noerror;
+
+	std::string error, path("./history/image" + std::to_string(interaction - 1) + ".png");
+	
+	error = current_image->open(path.c_str());
+	DebugLog("open(" << path << "):" << error);
+	if(error == noerror)
+	{
+		interaction--;
+	}
+	
+	return noerror;
+}
+
+std::string paintit::paintit_main::redo()
+{
+	if(interaction == maxinteraction)
+		return noerror;
+
+	std::string error, path("./history/image" + std::to_string(interaction + 1) + ".png");
+	
+	error = current_image->open(path.c_str());
+	DebugLog("open(" << path << "):" << error);
+	if(error == noerror)
+	{
+		interaction++;
+	}
+	
+	return noerror;
+
+	return noerror;
+}
+
+std::string paintit::paintit_main::executeCommand(const std::string& line, bool isFor)
 {
 	std::stringstream commandLine(line);
-	
-	while(!commandLine.eof())
+	do
 	{
 		std::string command;
 		commandLine >> command;
@@ -134,14 +222,37 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 					variable.second.increment();
 					stop *= variable.second.finished;
 				}
-				std::string error = executeCommand(tmpLine);
+				std::string error = executeCommand(tmpLine, true);
 				DebugMessage(tmpLine << "... " << error);
 				return_iferror(error);
 			}
 		}
 		else if(lib::cstrcmp(command, "update") == 0)
 		{
-			view->updateImage(*current_image);
+			this->updateImage(*current_image);
+		}
+		else if(lib::cstrcmp(command, "undo") == 0)
+		{
+			if(!isFor)
+			{
+				this->undo();
+				DebugLog("exitting undo");
+			}
+			else
+			{
+				return "Não é permitido o uso do \'undo\' dentro de laços";
+			}
+		}
+		else if(lib::cstrcmp(command, "redo") == 0)
+		{
+			if(!isFor)
+			{
+				this->redo();
+			}
+			else
+			{
+				return "Não é permitido o uso do \'redo\' dentro de laços";
+			}
 		}
 		else if(lib::cstrcmp(command, "math") == 0)
 		{
@@ -488,6 +599,7 @@ std::string paintit::paintit_main::executeCommand(const std::string& line)
 		{
 			return command_sintax(command);
 		}
-	}
+	}while(!commandLine.eof() && isFor);
+
 	return noerror;
 }

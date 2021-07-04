@@ -1,6 +1,9 @@
 
 #include "lib.hpp"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 long int lib::fat(int num)
 {
 	if(num == 0)
@@ -153,5 +156,23 @@ void lib::remove_trailling(std::string& number)
 	if(number.find('.') == number.size() - 1)
 	{
 		number = number.substr(0, number.size() - 1);
+	}
+}
+
+bool lib::chkdir(const std::string& path)
+{
+	struct stat info;
+
+    if(stat(path.c_str(), &info) != 0)
+	{
+        return false;
+	}
+    else if(info.st_mode & S_IFDIR)
+	{
+        return true;
+	}
+    else
+	{
+        return false;
 	}
 }

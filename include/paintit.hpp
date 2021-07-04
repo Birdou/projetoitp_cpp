@@ -62,7 +62,7 @@ namespace paintit
 		 */
 		void updateImage(paintit::ppm& image)
 		{
-			view->updateImage(image);
+			view->updateImage(&image);
 		}
 		/**
 		 * @brief      { function_description }
@@ -71,9 +71,15 @@ namespace paintit
 		 *
 		 * @return     { description_of_the_return_value }
 		 */
-		std::string executeCommand(const std::string& command);
+		std::string executeCommand(const std::string& command, bool isFor = false);
+
+		std::string undo();
+		std::string redo();
 
 	private:
+		int interaction = 0;
+		int maxinteraction = 0;
+
 		static viewer* view;
 		SDL_Thread* viewerthread;
 		/**

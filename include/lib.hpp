@@ -32,52 +32,42 @@
 #include "color.hpp"
 
 #ifdef DEBUG
-	#ifndef NODEBUG
-		#define DebugMessage(x) std::cout << colorstream("[DEBUG] " << typeid(*this).name() << "::" << __func__ << ": " << x, fDARK_GRAY) << std::endl
-		#define DebugMessageS(x) std::cout << colorstream("[DEBUG] " << __func__ << ": " << x, fDARK_GRAY) << std::endl
-	#else
-		#define DebugMessage(x)
-		#define DebugMessageS(x)
-	#endif
-	#ifndef NOLOG
-		#define DebugLog(x) std::cout << colorstream("[LOG] " << typeid(*this).name() << "::" << __func__ << ": " << x, fLIGHT_GREEN) << std::endl
-		#define DebugLogS(x) std::cout << colorstream("[LOG] " << __func__ << ": " << x, fLIGHT_GREEN) << std::endl
-	#else
-		#define DebugLog(x)
-		#define DebugLogS(x)
-	#endif
-	#ifndef NOWARNING
-		#define DebugWarning(x) std::cout << colorstream("[WARN] " << typeid(*this).name() << "::" << __func__ << ": " << x, fYELLOW) << std::endl
-		#define DebugWarningS(x) std::cout << colorstream("[WARN] " << __func__ << ": " << x, fYELLOW) << std::endl
-	#else
-		#define DebugWarning(x)
-		#define DebugWarningS(x)
-	#endif
-	#ifndef NOERROR
-		#define DebugError(x) std::cout << colorstream("[ERROR] " << typeid(*this).name() << "::" << __func__ << ": " << x, fRED) << std::endl
-		#define DebugErrorS(x) std::cout << colorstream("[ERROR] " << __func__ << ": " << x, fRED) << std::endl
-	#else
-		#define DebugError(x)
-		#define DebugErrorS(x)
-	#endif
-	#define DebugCritical(x) std::cout << colorstream("[CRITICAL] " << typeid(*this).name() << "::" << __func__ << ": " << x, bWHITE << fRED) << std::endl
-	#define DebugCriticalS(x) std::cout << colorstream("[CRITICAL] " << __func__ << ": " << x, bWHITE << fRED) << std::endl
+	#define DebugMessage(x) DebugStream("DEBUG", x, fDARK_GRAY)
+	#define DebugMessageS(x) DebugStreamS("DEBUG", x, fDARK_GRAY)
+
+	#define DebugLog(x) DebugStream("LOG", x, fLIGHT_GREEN)
+	#define DebugLogS(x) DebugStreamS("LOG", x, fLIGHT_GREEN)
+
+	#define DebugWarning(x) DebugStream("WARN", x, fYELLOW)
+	#define DebugWarningS(x) DebugStreamS("WARN", x, fYELLOW)
+
+	#define DebugError(x) DebugStream("ERROR", x, fRED)
+	#define DebugErrorS(x) DebugStreamS("ERROR", x, fRED)
+
+	#define DebugCritical(x) DebugStream("CRITICAL", x, bWHITE << fRED)
+	#define DebugCriticalS(x) DebugStreamS("CRITICAL", x, bWHITE << fRED)
 #else
-#define DebugMessage(x)
-#define DebugMessageS(x)
+	#define DebugMessage(x)
+	#define DebugMessageS(x)
 
-#define DebugLog(x)
-#define DebugLogS(x)
+	#define DebugLog(x)
+	#define DebugLogS(x)
 
-#define DebugWarning(x)
-#define DebugWarningS(x)
+	#define DebugWarning(x)
+	#define DebugWarningS(x)
 
-#define DebugError(x)
-#define DebugErrorS(x)
+	#define DebugError(x)
+	#define DebugErrorS(x)
 
-#define DebugCritical(x)
-#define DebugCriticalS(x)
+	#define DebugCritical(x)
+	#define DebugCriticalS(x)
 #endif
+
+#define DebugStream(errorid, stream, color)\
+	std::cout << colorstream("[" << errorid << "] " << typeid(*this).name() << "::" << __func__ << ": " << stream, color) << std::endl; SDL_ClearError();
+
+#define DebugStreamS(errorid, stream, color)\
+	std::cout << colorstream("[" << errorid << "] " << __func__ << ": " << stream, color) << std::endl; SDL_ClearError();
 
 #define CLS system("cls")
 
@@ -330,6 +320,15 @@ namespace lib
 
 		return expression;
 	}
+
+	/**
+	 * @brief 
+	 * 
+	 * @param s 
+	 * @return true 
+	 * @return false 
+	 */
+	bool chkdir(const std::string& s);
 }
 
 #endif

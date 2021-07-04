@@ -166,140 +166,101 @@ std::string paintit::command_sintax(const std::string& command)
 	}
 	else if(lib::cstrcmp(command, "clear") == 0)
 	{
-		//return "";
+		return "uso: clear [r] [g] [b]";
 	}
 	else if(lib::cstrcmp(command, "global") == 0)
 	{
-		//return "";
+		return "uso: global [x] [y]";
 	}
 	else if(lib::cstrcmp(command, "line") == 0)
 	{
-		return "uso: line [y0] [x0] [y1] [x1]";
+		return "uso: line [x0] [y0] [x1] [y1]";
 	}
 	else if(lib::cstrcmp(command, "polygon") == 0)
 	{
-		//return "";
+		return "uso: polygon [lados] [x0] [y0] ... [x_lados] [y_lados]";
 	}
 	else if(lib::cstrcmp(command, "rect") == 0)
 	{
-		//return "";
+		return "uso: rect [x] [y] [largura] [altura]";
 	}
 	else if(lib::cstrcmp(command, "circle") == 0)
 	{
-		//return "";
+		return "uso: circle [x] [y] [raio] [0 ou 1]";
 	}
 	else if(lib::cstrcmp(command, "fill") == 0)
 	{
-		//return "";
+		return "uso: fill [x] [y]";
 	}
 	else if(lib::cstrcmp(command, "save") == 0)
 	{
-
+		return "uso: save [JPG|PNG|BMP] [nome_do_arquivo + extensão]";
 	}
 	else if(lib::cstrcmp(command, "open") == 0)
 	{
-		//return "";
+		return "uso: open [caminho]";
 	}
 	else if(lib::cstrcmp(command, "scolor") == 0)
 	{
-
+		return "uso: scolor [nome_da_cor]";
 	}
 	else if(lib::cstrcmp(command, "sclear") == 0)
 	{
-		//return "";
+		return "uso: sclear [nome_da_cor]";
 	}
-	/*else if(lib::cstrcmp(command, "rotate") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "invert") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "grayscale") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "sepia") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "negative") == 0)
-	{
-		//return "";
-	}*/
 	else if(lib::cstrcmp(command, "glitch") == 0)
 	{
-		//return "";
+		return "uso: glitch [distância] [ângulo]";
 	}
 	else if(lib::cstrcmp(command, "rbglitch") == 0)
 	{
-
+		return "uso: rbglitch [distância] [ângulo]";
 	}
 	else if(lib::cstrcmp(command, "pixelize") == 0)
 	{
-		//return "";
+		return "uso: pixelize [proporção]";
 	}
 	else if(lib::cstrcmp(command, "darken") == 0)
 	{
-		//return "";
+		return "uso: darken [escala]";
 	}
 	else if(lib::cstrcmp(command, "brighten") == 0)
 	{
-
+		return "uso: brighten [escala]";
 	}
 	else if(lib::cstrcmp(command, "vibrancy") == 0)
 	{
-		//return "";
+		return "uso: vibrancy [escala]";
 	}
 	else if(lib::cstrcmp(command, "intensity") == 0)
 	{
-		//return "";
+		return "uso: intensity [escala]";
 	}
 	else if(lib::cstrcmp(command, "redequal") == 0)
 	{
-
+		return "uso: redequal [r] [g] [b]";
 	}
 	else if(lib::cstrcmp(command, "greenequal") == 0)
 	{
-		//return "";
+		return "uso: greenequal [r] [g] [b]";
 	}
 	else if(lib::cstrcmp(command, "blueequal") == 0)
 	{
-
+		return "uso: blueequal [r] [g] [b]";
 	}
 	else if(lib::cstrcmp(command, "desaturate") == 0)
 	{
-		//return "";
+		return "uso: desaturate [r] [g] [b]";
 	}
-	/*else if(lib::cstrcmp(command, "listcolor") == 0)
-	{
-		//return "";
-	}*/
 	else if(lib::cstrcmp(command, "curve") == 0)
 	{
-		//return "";
+		return "uso: curve [pontos] [x0] [y0] ... [x_pontos] [y_pontos]";
 	}
 	else if(lib::cstrcmp(command, "elipse") == 0)
 	{
-		//return "";
+		return "uso: elipse [x] [y] [largura] [altura] [angulo] [0 ou 1]";
 	}
-	/*else if(lib::cstrcmp(command, "help") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "purge") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "history") == 0)
-	{
-		//return "";
-	}*/
-	/*else if(lib::cstrcmp(command, "exit") == 0)
-	{
-		//return "";
-	}*/
+
 	return "Um exemplo de uso não está disponível para este comando. Favor verificar sua sintaxe";
 }
 
@@ -374,14 +335,14 @@ std::string paintit::command_help(const std::string& command)
 	else if(lib::cstrcmp(command, "save") == 0)
 	{
 		std::cout <<
-		"Save: save [3 ou 6] [caminho]" << std::endl <<
-		"\tSalva a imagem no formato P3 (PPMA) ou P6 (PPMB) no diretório especificado;" << std::endl;
+		"Save: save [JPG|PNG|BMP] [caminho]" << std::endl <<
+		"\tSalva a imagem no formato especificado." << std::endl;
 	}
 	else if(lib::cstrcmp(command, "open") == 0)
 	{
 		std::cout <<
 		"Open: open [caminho]" << std::endl <<
-		"\tCarrega um arquivo PPM (binário ou ASCII) preexistente para edição. Outros formatos (ainda) não são suportados;" << std::endl;
+		"\tCarrega uma preexistente." << std::endl;
 	}
 	else if(lib::cstrcmp(command, "scolor") == 0)
 	{
@@ -405,7 +366,7 @@ std::string paintit::command_help(const std::string& command)
 	{
 		std::cout <<
 		"Invert: invert" << std::endl <<
-		"\tInverte a imagem verticalmente;" << std::endl;
+		"\tInverte a imagem em torno do eixo y;" << std::endl;
 	}
 	else if(lib::cstrcmp(command, "grayscale") == 0)
 	{
@@ -434,7 +395,7 @@ std::string paintit::command_help(const std::string& command)
 	else if(lib::cstrcmp(command, "rbglitch") == 0)
 	{
 		std::cout <<
-		"RBGlitch: rbglitch [distancia] [ângulo]" << std::endl <<
+		"RBGlitch: rbglitch [distância] [ângulo]" << std::endl <<
 		"\tAplica um efeito de distanciamento dos planos de cores de acordo com o ângulo informado depois de ter aplicado o efeito grayscale;" << std::endl;
 	}
 	else if(lib::cstrcmp(command, "pixelize") == 0)

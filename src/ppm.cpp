@@ -6,25 +6,20 @@
 #include "viewer.hpp"
 
 paintit::ppm::ppm()
-{
-	DebugLog("creating an image by default");
-}
+{}
 
 paintit::ppm::ppm(size_t width, size_t height, paintit::rgb** color):
 width(width), height(height), color(color)
 {
-	DebugLog("creating an image with specified width, height and color matrix...");
 }
 
 paintit::ppm::ppm(size_t width, size_t height)
 {
-	DebugLog("creating an image with specified width and height...");
 	this->image(width, height);
 }
 
 paintit::ppm::ppm(const ppm& image)
 {
-	DebugLog("creating an image that is a copy of another...");
 	this->image(image.width, image.height);
 
 	for(size_t i = 0; i < this->width; ++i) 
@@ -38,7 +33,7 @@ paintit::ppm::ppm(const ppm& image)
 
 paintit::ppm::~ppm()
 {
-	DebugMessage("calling erase()...");
+	DebugMessage("erasing...");
 	erase();
 }
 
@@ -68,12 +63,13 @@ bool paintit::ppm::hasInitialized() const
 
 bool paintit::ppm::ready() const
 {
-	return isReady;
+	return (this->color != nullptr) * isReady;
 }
 
 paintit::rgb* paintit::ppm::getColor(size_t x, size_t y)
 {
-	if(!ready() || !hasInitialized()) return nullptr;
+	if(!ready() || !hasInitialized())
+		return nullptr;
 	return &this->color[x][y];
 }
 
@@ -439,6 +435,11 @@ std::string paintit::ppm::openP6(const char* arquivo)
 std::string paintit::ppm::openOther(const char* arquivo)
 {
 	SDL_Surface* surface = IMG_Load(arquivo);
+	if(surface == NULL)
+	{
+		DebugError("IMG_Load: " << SDL_GetError());
+		return inexistent_file_exception;
+	}
 
 	this->image(surface->w, surface->h);
 
@@ -460,26 +461,31 @@ std::string paintit::ppm::openOther(const char* arquivo)
 std::string paintit::ppm::open(const char* arquivo)
 {
 	std::string error;
-
+	isReady = false;
 	error = openP3(arquivo);
 	if(error != invalid_format_exception)
 	{
-		//return error;
+		return error;
 	}
 	error = openP6(arquivo);
 	if(error != invalid_format_exception)
 	{
-		//return error;
+		return error;
 	}
-	return openOther(arquivo);
+	error = openOther(arquivo);
+	if(error != noerror)
+	{
+		return error;
+	}
+
+	isReady = true;
+	return noerror;
 }
 
 std::string paintit::ppm::erase()
 {
 	if(this->color == nullptr)
 		return noerror;
-
-	DebugMessage("erasing image...");
 
 	for(size_t i = 0; i < this->width; ++i)
 	{

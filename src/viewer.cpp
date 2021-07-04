@@ -17,7 +17,7 @@ title(title), xpos(xpos), ypos(ypos), width(width), height(height), fullscreen(f
 
 paintit::viewer::~viewer()
 {
-	DebugMessage("delete assetManager");
+	DebugMessage("destroying assetManager...");
 	delete assetManager;
 
 	IMG_Quit();
@@ -32,10 +32,9 @@ paintit::viewer::~viewer()
 	SDL_DestroyTexture(imageTexture);
 	DebugMessage("SDL_DestroyTexture:" << SDL_GetError());
 
-	//FIXME Why this is throwing exceptions?
-	/*Debug("SDL: Quit");
-	SDL_Quit();*/
-
+	//DebugMessageS("quitting...");
+	//atexit(SDL_Quit);
+	//DebugMessageS("SDL_Quit:" << SDL_GetError());
 }
 
 void paintit::viewer::init()
@@ -45,7 +44,7 @@ void paintit::viewer::init()
 	{
 		flags |= SDL_WINDOW_FULLSCREEN;
 	}
-    if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
 		window = SDL_CreateWindow(title.c_str(), xpos, ypos, width, height, flags);
 		renderer = SDL_CreateRenderer(window, -1, 0);
@@ -77,29 +76,28 @@ void paintit::viewer::init()
 	SDL_Color green = {0, 255, 0, 255};
 	SDL_Color blue = {0, 0, 255, 255};
 
+	auto& redlabel = assetManager->CreateLabel("red_color_label", Vector2D(10, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
+	redlabel.getComponent<UILabel>().SetBackground(red);
+	auto& greenlabel = assetManager->CreateLabel("green_color_label", Vector2D(20, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
+	greenlabel.getComponent<UILabel>().SetBackground(green);
+	greenlabel.getComponent<UILabel>().SetAtSide("red_color_label");
+	auto& bluelabel = assetManager->CreateLabel("blue_color_label", Vector2D(30, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
+	bluelabel.getComponent<UILabel>().SetBackground(blue);
+	bluelabel.getComponent<UILabel>().SetAtSide("green_color_label");
 
-		auto& redlabel = assetManager->CreateLabel("red_color_label", Vector2D(10, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
-			redlabel.getComponent<UILabel>().SetBackground(red);
-		auto& greenlabel = assetManager->CreateLabel("green_color_label", Vector2D(20, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
-			greenlabel.getComponent<UILabel>().SetBackground(green);
-			greenlabel.getComponent<UILabel>().SetAtSide("red_color_label");
-		auto& bluelabel = assetManager->CreateLabel("blue_color_label", Vector2D(30, height - 40), "0", "arial_14", black, UILabel::labelType::shaded);
-			bluelabel.getComponent<UILabel>().SetBackground(blue);
-			bluelabel.getComponent<UILabel>().SetAtSide("green_color_label");
+	auto& colorlabel = assetManager->CreateLabel("color_label", Vector2D(10, height - 55), " ", "arial_14", black, UILabel::labelType::shaded);
+	colorlabel.getComponent<UILabel>().setWidth(redlabel.getComponent<UILabel>().getWidth() + greenlabel.getComponent<UILabel>().getWidth() + bluelabel.getComponent<UILabel>().getWidth());
 
-		auto& colorlabel = assetManager->CreateLabel("color_label", Vector2D(10, height - 55), " ", "arial_14", black, UILabel::labelType::shaded);
-			colorlabel.getComponent<UILabel>().setWidth(redlabel.getComponent<UILabel>().getWidth() + greenlabel.getComponent<UILabel>().getWidth() + bluelabel.getComponent<UILabel>().getWidth());
+	assetManager->CreateLabel("pencil_mode_label", Vector2D(10, 10), "", "arial_14", white, UILabel::labelType::shaded);
+	auto& pencil_color_label = assetManager->CreateLabel("pencil_color_label", Vector2D(10, 30), " ", "arial_14", black, UILabel::labelType::shaded);
+	pencil_color_label.getComponent<UILabel>().setWidth(30);
+	pencil_color_label.getComponent<UILabel>().setHeight(30);
 
-		assetManager->CreateLabel("pencil_mode_label", Vector2D(10, 10), "", "arial_14", white, UILabel::labelType::shaded);
-		auto& pencil_color_label = assetManager->CreateLabel("pencil_color_label", Vector2D(10, 30), " ", "arial_14", black, UILabel::labelType::shaded);
-		pencil_color_label.getComponent<UILabel>().setWidth(30);
-		pencil_color_label.getComponent<UILabel>().setHeight(30);
-
-		auto& resolution_label = assetManager->CreateLabel("resolution_label", Vector2D(width - 10, height - 40), "", "arial_14", white, UILabel::labelType::shaded);
-			resolution_label.getComponent<UILabel>().SetAlignment(UILabel::right);
-		assetManager->CreateLabel("position_label", Vector2D(10, height - 20), "", "arial_14", white, UILabel::labelType::shaded);
-		auto& scale_label = assetManager->CreateLabel("scale_label", Vector2D(width - 10, height - 20), "", "arial_14", white, UILabel::labelType::shaded);
-			scale_label.getComponent<UILabel>().SetAlignment(UILabel::right);
+	auto& resolution_label = assetManager->CreateLabel("resolution_label", Vector2D(width - 10, height - 40), "", "arial_14", white, UILabel::labelType::shaded);
+	resolution_label.getComponent<UILabel>().SetAlignment(UILabel::right);
+	assetManager->CreateLabel("position_label", Vector2D(10, height - 20), "", "arial_14", white, UILabel::labelType::shaded);
+	auto& scale_label = assetManager->CreateLabel("scale_label", Vector2D(width - 10, height - 20), "", "arial_14", white, UILabel::labelType::shaded);
+	scale_label.getComponent<UILabel>().SetAlignment(UILabel::right);
 
 
 	DebugLog("everything was initialized correctly.");
@@ -123,98 +121,98 @@ void paintit::viewer::handleEvents()
 		switch (event.type)
 		{
 			case SDL_QUIT:
-				isRunning = false;
-				break;
+			isRunning = false;
+			break;
 			case SDL_WINDOWEVENT:
-				if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-				{
-					width = event.window.data1;
-					height = event.window.data2;
-				}
-				break;
+			if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+			{
+				width = event.window.data1;
+				height = event.window.data2;
+			}
+			break;
 			case SDL_MOUSEWHEEL:
-				int x, y, dx, dy;
-				SDL_GetMouseState(&x, &y);
+			int x, y, dx, dy;
+			SDL_GetMouseState(&x, &y);
 
-				if(event.wheel.y > 0)
-				{
-					xyscale *= 1.25f;
+			if(event.wheel.y > 0)
+			{
+				xyscale *= 1.25f;
 
-					dx = x - relative_imagex;
-					dy = y - relative_imagey;
+				dx = x - relative_imagex;
+				dy = y - relative_imagey;
 
-					imagex -= (dx * 1.25f) - dx;
-					imagey -= (dy * 1.25f) - dy;
-				}
-				else if(event.wheel.y < 0)
-				{
-					xyscale /= 1.25f;
+				imagex -= (dx * 1.25f) - dx;
+				imagey -= (dy * 1.25f) - dy;
+			}
+			else if(event.wheel.y < 0)
+			{
+				xyscale /= 1.25f;
 
-					dx = x - relative_imagex;
-					dy = y - relative_imagey;
+				dx = x - relative_imagex;
+				dy = y - relative_imagey;
 
-					imagex += (dx * 1.25f) - dx;
-					imagey += (dy * 1.25f) - dy;
-				}
-				break;
+				imagex += (dx * 1.25f) - dx;
+				imagey += (dy * 1.25f) - dy;
+			}
+			break;
 			case SDL_MOUSEMOTION:
-				if(leftMouseButtonDown)
-				{
-					imagex += event.motion.xrel / (1 + sqrt(xyscale));
-					imagey += event.motion.yrel / (1 + sqrt(xyscale));
-				}
-				break;
+			if(leftMouseButtonDown)
+			{
+				imagex += event.motion.xrel / (1 + sqrt(xyscale));
+				imagey += event.motion.yrel / (1 + sqrt(xyscale));
+			}
+			break;
 			case SDL_MOUSEBUTTONDOWN:
-				if (!leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
-				{
-					leftMouseButtonDown = true;
-				}
-				break;
+			if (!leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
+			{
+				leftMouseButtonDown = true;
+			}
+			break;
 			case SDL_MOUSEBUTTONUP:
-				if (leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
-				{
-					leftMouseButtonDown = false;
-				}
-				break;
+			if (leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
+			{
+				leftMouseButtonDown = false;
+			}
+			break;
 			case SDL_KEYDOWN:
-				switch(paintit::viewer::event.key.keysym.sym)
+			switch(paintit::viewer::event.key.keysym.sym)
+			{
+				case SDLK_SPACE:
+				imagex = 0;
+				imagey = 0;
+				xyscale = 1.0f;
+				break;
+				case SDLK_UP:
+				imagey += xyscale;
+				break;
+				case SDLK_LEFT:
+				imagex += xyscale;
+				break;
+				case SDLK_DOWN:
+				imagey -= xyscale;
+				break;
+				case SDLK_RIGHT:
+				imagex -= xyscale;
+				break;
+				case SDLK_F11:
+				if(fullscreen)
 				{
-					case SDLK_SPACE:
-						imagex = 0;
-						imagey = 0;
-						xyscale = 1.0f;
-						break;
-					case SDLK_UP:
-						imagey += xyscale;
-						break;
-					case SDLK_LEFT:
-						imagex += xyscale;
-						break;
-					case SDLK_DOWN:
-						imagey -= xyscale;
-						break;
-					case SDLK_RIGHT:
-						imagex -= xyscale;
-						break;
-					case SDLK_F11:
-						if(fullscreen)
-						{
-							SDL_SetWindowFullscreen(window, SDL_FALSE);
-							fullscreen = false;
-						}
-						else
-						{
-							SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-							fullscreen = true;
-						}
-						SDL_GL_GetDrawableSize(window, &width, &height);
-						break;
-					default:
-						break;
+					SDL_SetWindowFullscreen(window, SDL_FALSE);
+					fullscreen = false;
 				}
+				else
+				{
+					SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+					fullscreen = true;
+				}
+				SDL_GL_GetDrawableSize(window, &width, &height);
 				break;
+				default:
+				break;
+			}
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 }
@@ -268,6 +266,12 @@ void paintit::viewer::update()
 
 	pencil_color_label.SetBackground(pencilColor);
 
+	if(imageTexture == NULL && paintit_main::current_image->ready())
+	{
+		DebugMessage("forcing image update...");
+		updateImage();
+	}
+
 	if(x >= 0 && static_cast<size_t>(x) < paintit_main::current_image->getWidth() &&
 		y >= 0 && static_cast<size_t>(y) < paintit_main::current_image->getHeight())
 	{
@@ -320,22 +324,22 @@ void paintit::viewer::updateImage()
 	}
 }
 
-void paintit::viewer::updateImage(paintit::ppm& image)
+void paintit::viewer::updateImage(paintit::ppm* image)
 {
 	if(imageTexture != NULL)
 		SDL_DestroyTexture(imageTexture);
 
-	SDL_Surface* surface = SDL_CreateRGBSurface(0, image.getWidth(), image.getHeight(), 32, 0, 0, 0, 0);
+	SDL_Surface* surface = SDL_CreateRGBSurface(0, image->getWidth(), image->getHeight(), 32, 0, 0, 0, 0);
 	if(surface != NULL)
 	{
 		unsigned char* pixels = (unsigned char*)surface->pixels;
-		for(size_t x = 0; x < image.getWidth(); ++x)
+		for(size_t x = 0; x < image->getWidth(); ++x)
 		{
-			for(size_t y = 0; y < image.getHeight(); ++y)
+			for(size_t y = 0; y < image->getHeight(); ++y)
 			{
-				pixels[4 * (y * surface->w + x) + 2] = image[y][x].getR(); //2103
-				pixels[4 * (y * surface->w + x) + 1] = image[y][x].getG(); //2103
-				pixels[4 * (y * surface->w + x) + 0] = image[y][x].getB(); //2103
+				pixels[4 * (y * surface->w + x) + 2] = (*image)[y][x].getR(); //2103
+				pixels[4 * (y * surface->w + x) + 1] = (*image)[y][x].getG(); //2103
+				pixels[4 * (y * surface->w + x) + 0] = (*image)[y][x].getB(); //2103
 				pixels[4 * (y * surface->w + x) + 3] = 255; //2103
 			}
 		}
@@ -349,7 +353,7 @@ auto& labels = paintit::viewer::manager.getGroup(AssetManager::groupLabels);
 void paintit::viewer::draw()
 {
 	SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 144, 144, 144, 255);
+	SDL_SetRenderDrawColor(renderer, 144, 144, 144, 255);
 
 	if(imageTexture != NULL)
 	{

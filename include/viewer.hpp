@@ -68,7 +68,7 @@ namespace paintit
          *
          * @param      <unnamed>  { parameter_description }
          */
-        void updateImage(paintit::ppm&);
+        void updateImage(paintit::ppm*);
 
         /**
          * @brief      { function_description }
