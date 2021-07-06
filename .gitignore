@@ -1,10 +1,9 @@
-.vs
 .vscode
 objects
 gallery
 
 prog
-paintIt
+paint
 
 *.exe
 *.jpg
