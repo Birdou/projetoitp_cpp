@@ -103,7 +103,7 @@ std::string paintit::functions::global(paintit::ppm& image, const penc& pincel, 
 	if(!image.hasInitialized())
 		return uninitialized_image_exception;
 
-	paintit::rgb cor = image[pos.x][pos.y];
+	paintit::rgb cor(image[pos.x][pos.y]);
 	for(size_t i = 0; i < image.getWidth(); ++i)
 	{
 		for(size_t j = 0; j < image.getHeight(); ++j)

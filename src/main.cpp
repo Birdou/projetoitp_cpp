@@ -1,12 +1,18 @@
 #include <iostream>
 #include <sys/stat.h>
-#include "paintit.hpp"
 
+#include "paintit.hpp"
 #include "color.hpp"
+
+#if defined(_WIN32)
+#define TERMINAL_ENCODING system("chcp 65001 >nul");
+#else
+#define TERMINAL_ENCODING
+#endif
 
 int main(int argc, char* argv[])
 {
-	system("chcp 65001 >nul");
+	TERMINAL_ENCODING;
 	setlocale(LC_ALL, "pt_BR_utf8");
 
 	DebugLogS("this is a log message");

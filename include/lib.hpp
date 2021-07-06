@@ -69,123 +69,47 @@
 #define DebugStreamS(errorid, stream, color)\
 	std::cout << colorstream("[" << errorid << "] " << __func__ << ": " << stream, color) << std::endl; SDL_ClearError();
 
-#define CLS system("cls")
+#if defined(_WIN32)
+	#define CLS system("cls")
+#elif defined(unix) | defined(__unix) | defined(__unix__)
+	#define CLS if(system("clear") != 0) { std::cout << "Alguma coisa deu errado" << std::endl; }
+#else
+	#define CLS std::cout << "Não há suporte para esta função no sistema operacional atual." << std::endl
+#endif
 
 namespace lib
 {
 	#ifndef PI
-	#define PI 3.1415927
+		#define PI 3.1415927
 	#endif
 	
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  num   The number
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	long int fat(int num);
+		long int fat(int num);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  n     { parameter_description }
-	 * @param[in]  i     { parameter_description }
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	long int bin(int n, int i);
+		long int bin(int n, int i);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  deg   The degrees
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	double rad(double deg);
+		double rad(double deg);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  word  The word
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	std::string stolower(const std::string& word);
+		std::string stolower(const std::string& word);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  string1  The string 1
-	 * @param[in]  string2  The string 2
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	int cstrcmp(const std::string& string1, const std::string& string2);
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  letter  The letter
-	 * @param[in]  vect    The vect
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	bool isany(const char letter, const std::string& vect);
+		int cstrcmp(const std::string& string1, const std::string& string2);
+		bool isany(const char letter, const std::string& vect);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  word  The word
-	 * @param[in]  vect  The vect
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	bool isany(const std::string& word, const std::string& vect);
+		bool isany(const std::string& word, const std::string& vect);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  string  The string
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	size_t chartcount(const std::string& string);
+		size_t chartcount(const std::string& string);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param      surface  The surface
-	 * @param[in]  x        { parameter_description }
-	 * @param[in]  y        { parameter_description }
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	Uint32 getpixel(SDL_Surface *surface, int x, int y);
+		Uint32 getpixel(SDL_Surface *surface, int x, int y);
 	
-	/**
-	 * @brief      This class describes a variable.
-	 */
-	class var
+		class var
 	{
 	public:
 		ssize_t target, step, value;
 		bool finished = false;
-		/**
-		 * @brief      Constructs a new instance.
-		 *
-		 * @param[in]  start  The start
-		 * @param[in]  end    The end
-		 * @param[in]  step   The step
-		 */
-		var(ssize_t start, ssize_t end, ssize_t step):
+				var(ssize_t start, ssize_t end, ssize_t step):
 			target(end), step(step), value(start)
 		{}
 
-		/**
-		 * @brief      { function_description }
-		 */
-		void increment()
+				void increment()
 		{
 			if((value >= target && step > 0) || (value <= target && step < 0))
 			{
@@ -196,39 +120,12 @@ namespace lib
 		}
 	};
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param      str   The string
-	 * @param[in]  from  The from
-	 * @param[in]  to    { parameter_description }
-	 */
-	void replaceAll(std::string& str, const std::string& from, const std::string& to);
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param      str   The string
-	 * @param[in]  from  The from
-	 * @param[in]  to    { parameter_description }
-	 */
-	void replaceWhole(std::string& str, const std::string& from, const std::string& to);
+		void replaceAll(std::string& str, const std::string& from, const std::string& to);
+		void replaceWhole(std::string& str, const std::string& from, const std::string& to);
 
-	/**
-	 * @brief      Removes a trailling.
-	 *
-	 * @param      number  The number
-	 */
-	void remove_trailling(std::string& number);
+		void remove_trailling(std::string& number);
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  operation   The operation
-	 * @param      expression  The expression
-	 *
-	 * @tparam     type        { description }
-	 */
-	template<typename type>
+		template<typename type>
 	void catchoperator(char operation, std::string& expression)
 	{
 		std::stringstream stream(expression);
@@ -294,16 +191,7 @@ namespace lib
 		}
 	}
 
-	/**
-	 * @brief      { function_description }
-	 *
-	 * @param[in]  expression  The expression
-	 *
-	 * @tparam     type        { description }
-	 *
-	 * @return     { description_of_the_return_value }
-	 */
-	template<typename type>
+		template<typename type>
 	std::string smath(std::string expression)
 	{
 		size_t first, last;
@@ -321,14 +209,7 @@ namespace lib
 		return expression;
 	}
 
-	/**
-	 * @brief 
-	 * 
-	 * @param s 
-	 * @return true 
-	 * @return false 
-	 */
-	bool chkdir(const std::string& s);
+		bool chkdir(const std::string& s);
 }
 
 #endif

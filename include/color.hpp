@@ -104,27 +104,13 @@
 	#define bWHITE
 #endif
 
-/**
- * @brief      { function_description }
- *
- * @param      command  The command
- * @param      color    The color
- *
- * @return     { description_of_the_return_value }
- */
+
 #define colorspace(command, color) 	\
 	std::cout << color;				\
 	command;						\
 	std::cout << aRESET;
 
-/**
- * @brief      { function_description }
- *
- * @param      stream  The stream
- * @param      color   The color
- *
- * @return     { description_of_the_return_value }
- */
+
 #define colorstream(stream, color)	\
 	color << stream << aRESET
 

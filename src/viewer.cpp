@@ -115,104 +115,117 @@ void paintit::viewer::handleEvents()
 	{
 		SDL_EventState(SDL_MOUSEMOTION, SDL_DISABLE);
 	}
-
-	if(SDL_PollEvent(&event))
+	
+	while(SDL_PollEvent(&event))
 	{
 		switch (event.type)
 		{
-			case SDL_QUIT:
-			isRunning = false;
-			break;
-			case SDL_WINDOWEVENT:
-			if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-			{
-				width = event.window.data1;
-				height = event.window.data2;
-			}
-			break;
-			case SDL_MOUSEWHEEL:
-			int x, y, dx, dy;
-			SDL_GetMouseState(&x, &y);
-
-			if(event.wheel.y > 0)
-			{
-				xyscale *= 1.25f;
-
-				dx = x - relative_imagex;
-				dy = y - relative_imagey;
-
-				imagex -= (dx * 1.25f) - dx;
-				imagey -= (dy * 1.25f) - dy;
-			}
-			else if(event.wheel.y < 0)
-			{
-				xyscale /= 1.25f;
-
-				dx = x - relative_imagex;
-				dy = y - relative_imagey;
-
-				imagex += (dx * 1.25f) - dx;
-				imagey += (dy * 1.25f) - dy;
-			}
-			break;
-			case SDL_MOUSEMOTION:
-			if(leftMouseButtonDown)
-			{
-				imagex += event.motion.xrel / (1 + sqrt(xyscale));
-				imagey += event.motion.yrel / (1 + sqrt(xyscale));
-			}
-			break;
-			case SDL_MOUSEBUTTONDOWN:
-			if (!leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
-			{
-				leftMouseButtonDown = true;
-			}
-			break;
-			case SDL_MOUSEBUTTONUP:
-			if (leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
-			{
-				leftMouseButtonDown = false;
-			}
-			break;
-			case SDL_KEYDOWN:
-			switch(paintit::viewer::event.key.keysym.sym)
-			{
-				case SDLK_SPACE:
-				imagex = 0;
-				imagey = 0;
-				xyscale = 1.0f;
+			case SDL_QUIT:{
+				isRunning = false;
 				break;
-				case SDLK_UP:
-				imagey += xyscale;
-				break;
-				case SDLK_LEFT:
-				imagex += xyscale;
-				break;
-				case SDLK_DOWN:
-				imagey -= xyscale;
-				break;
-				case SDLK_RIGHT:
-				imagex -= xyscale;
-				break;
-				case SDLK_F11:
-				if(fullscreen)
+			}
+			case SDL_WINDOWEVENT:{
+				if(event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 				{
-					SDL_SetWindowFullscreen(window, SDL_FALSE);
-					fullscreen = false;
+					width = event.window.data1;
+					height = event.window.data2;
 				}
-				else
-				{
-					SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-					fullscreen = true;
-				}
-				SDL_GL_GetDrawableSize(window, &width, &height);
-				break;
-				default:
 				break;
 			}
-			break;
+			case SDL_MOUSEWHEEL:{
+				int x, y, dx, dy;
+				SDL_GetMouseState(&x, &y);
+
+				if(event.wheel.y > 0)
+				{
+					xyscale *= 1.25f;
+
+					dx = x - relative_imagex;
+					dy = y - relative_imagey;
+
+					imagex -= (dx * 1.25f) - dx;
+					imagey -= (dy * 1.25f) - dy;
+				}
+				else if(event.wheel.y < 0)
+				{
+					xyscale /= 1.25f;
+
+					dx = x - relative_imagex;
+					dy = y - relative_imagey;
+
+					imagex += (dx * 1.25f) - dx;
+					imagey += (dy * 1.25f) - dy;
+				}
+				break;
+			}
+			case SDL_MOUSEMOTION:{
+				if(leftMouseButtonDown)
+				{
+					imagex += event.motion.xrel / (1 + sqrt(xyscale));
+					imagey += event.motion.yrel / (1 + sqrt(xyscale));
+				}
+				break;
+			}
+			case SDL_MOUSEBUTTONDOWN:{
+				if (!leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
+				{
+					leftMouseButtonDown = true;
+				}
+				break;
+			}
+			case SDL_MOUSEBUTTONUP:{
+				if (leftMouseButtonDown && event.button.button == SDL_BUTTON_LEFT)
+				{
+					leftMouseButtonDown = false;
+				}
+				break;
+			}
+			case SDL_KEYDOWN:{
+				switch(event.key.keysym.sym)
+				{
+					case SDLK_SPACE:{
+						imagex = 0;
+						imagey = 0;
+						xyscale = 1.0f;
+						break;
+					}
+					case SDLK_UP:{
+						imagey += xyscale;
+						break;
+					}
+					case SDLK_LEFT:{
+						imagex += xyscale;
+						break;
+					}
+					case SDLK_DOWN:{
+						imagey -= xyscale;
+						break;
+					}
+					case SDLK_RIGHT:{
+						imagex -= xyscale;
+						break;
+					}
+					case SDLK_F11:{
+						if(fullscreen)
+						{
+							SDL_SetWindowFullscreen(window, SDL_FALSE);
+							fullscreen = false;
+						}
+						else
+						{
+							SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+							fullscreen = true;
+						}
+						SDL_GL_GetDrawableSize(window, &width, &height);
+						break;
+					}
+					default:
+						break;
+				}
+				break;
+			}
 			default:
-			break;
+				break;
 		}
 	}
 }

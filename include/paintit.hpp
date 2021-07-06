@@ -18,59 +18,37 @@
 
 namespace paintit
 {
-	/**
-	 * @brief      This class describes a paintit main.
-	 */
+	
 	class paintit_main
 	{
 	public:
 		static paintit::ppm* current_image;
 		static paintit::penc* pincel;
 
-		/**
-		 * @brief      Constructs a new instance.
-		 */
+		
 		paintit_main();
-		/**
-		 * @brief      Destroys the object.
-		 */
+		
 		~paintit_main();
 
 		static bool isRunning;
 
 		std::vector<std::string> history;
 
-		/**
-		 * @brief      Initializes the object.
-		 */
+		
 		void init();
-		/**
-		 * @brief      { function_description }
-		 */
+		
 		void execute();
-		/**
-		 * @brief      { function_description }
-		 */
+		
 		void updateImage()
 		{
 			view->updateImage();
 		}
-		/**
-		 * @brief      { function_description }
-		 *
-		 * @param      image  The image
-		 */
+		
 		void updateImage(paintit::ppm& image)
 		{
 			view->updateImage(&image);
 		}
-		/**
-		 * @brief      { function_description }
-		 *
-		 * @param[in]  command  The command
-		 *
-		 * @return     { description_of_the_return_value }
-		 */
+		
 		std::string executeCommand(const std::string& command, bool isFor = false);
 
 		std::string undo();
@@ -82,13 +60,7 @@ namespace paintit
 
 		static viewer* view;
 		SDL_Thread* viewerthread;
-		/**
-		 * @brief      { function_description }
-		 *
-		 * @param      ptr   The pointer
-		 *
-		 * @return     { description_of_the_return_value }
-		 */
+		
 		static int sdlstart(void* ptr)
 		{
 			ptr = ptr; //Avoid unused variable warnings
@@ -100,7 +72,7 @@ namespace paintit
 			int frameTime;
 
 			DebugLogS("creating an instance of viewer at " << FPS << " FPS...");
-			view = new viewer("PaintIt PPM Viewer (by Felipe Sena)", 128, 72, 600, 400, false);
+			view = new viewer("PaintIt Viewer (by Felipe Sena)", 128, 72, 600, 400, false);
 			DebugLogS("initializing viewer...");
 			view->init();
 			DebugLogS("entering viewer main loop...");

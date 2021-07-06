@@ -166,8 +166,6 @@ std::string paintit::paintit_main::redo()
 	}
 	
 	return noerror;
-
-	return noerror;
 }
 
 std::string paintit::paintit_main::executeCommand(const std::string& line, bool isFor)
@@ -220,7 +218,7 @@ std::string paintit::paintit_main::executeCommand(const std::string& line, bool 
 				{
 					lib::replaceWhole(tmpLine, variable.first, std::to_string(variable.second.value));
 					variable.second.increment();
-					stop *= variable.second.finished;
+					stop &= variable.second.finished;
 				}
 				std::string error = executeCommand(tmpLine, true);
 				DebugMessage(tmpLine << "... " << error);
@@ -261,6 +259,16 @@ std::string paintit::paintit_main::executeCommand(const std::string& line, bool 
 			result = lib::smath<float>(sentence);
 			lib::remove_trailling(result);
 			std::cout << " = " << std::fixed << result << std::endl;
+		}
+		else if(lib::cstrcmp(command, "shell") == 0)
+		{
+			std::string command;
+			getline(commandLine, command);
+			int errorlevel;
+			if((errorlevel = system(command.c_str())) != 0)
+			{
+				std::cout << "Returned " << errorlevel << std::endl;
+			}
 		}
 		else if(lib::cstrcmp(command, "image") == 0)
 		{

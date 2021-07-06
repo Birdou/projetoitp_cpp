@@ -11,6 +11,13 @@ paintit::rgb::rgb(short red, short green, short blue)
 	blue <= 0 ? this->b = 0 : blue >= 255 ? this->b = 255 : this->b = blue;
 }
 
+paintit::rgb::rgb(const rgb& color)
+{
+	this->r = color.r;
+	this->g = color.g;
+	this->b = color.b;
+}
+
 paintit::rgb::~rgb()
 {}
 

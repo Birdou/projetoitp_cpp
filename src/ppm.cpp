@@ -63,7 +63,7 @@ bool paintit::ppm::hasInitialized() const
 
 bool paintit::ppm::ready() const
 {
-	return (this->color != nullptr) * isReady;
+	return (this->color != nullptr) && isReady;
 }
 
 paintit::rgb* paintit::ppm::getColor(size_t x, size_t y)

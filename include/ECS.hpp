@@ -8,7 +8,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
-#include <map>
+#include <unordered_map>
 
 class Component;
 class Entity;
@@ -111,7 +111,7 @@ public:
 	T& getComponent() const
 	{
 		auto ptr(componentArray[getNewComponentTypeID<T>()]);
-		return * static_cast<T*>(ptr);
+		return *static_cast<T*>(ptr);
 	}
 };
 
@@ -120,7 +120,8 @@ class Manager
 private:
 	std::vector<std::unique_ptr<Entity>> entities;
 	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
-	std::map<std::string, Entity*> entityID;
+	std::unordered_map<std::string, Entity*> entityID;
+
 public:
 	void update()
 	{
