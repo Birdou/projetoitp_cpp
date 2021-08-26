@@ -6,10 +6,10 @@
 #include "viewer.hpp"
 
 paintit::ppm::ppm()
-{}
+{
+}
 
-paintit::ppm::ppm(size_t width, size_t height, paintit::rgb** color):
-width(width), height(height), color(color)
+paintit::ppm::ppm(size_t width, size_t height, paintit::rgb **color) : width(width), height(height), color(color)
 {
 }
 
@@ -18,13 +18,13 @@ paintit::ppm::ppm(size_t width, size_t height)
 	this->image(width, height);
 }
 
-paintit::ppm::ppm(const ppm& image)
+paintit::ppm::ppm(const ppm &image)
 {
 	this->image(image.width, image.height);
 
-	for(size_t i = 0; i < this->width; ++i) 
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j) 
+		for (size_t j = 0; j < this->height; ++j)
 		{
 			this->color[i][j] = image.color[i][j];
 		}
@@ -66,34 +66,35 @@ bool paintit::ppm::ready() const
 	return (this->color != nullptr) && isReady;
 }
 
-paintit::rgb* paintit::ppm::getColor(size_t x, size_t y)
+paintit::rgb *paintit::ppm::getColor(size_t x, size_t y)
 {
-	if(!ready() || !hasInitialized())
+	if (!ready() || !hasInitialized() ||
+		x >= width || y >= height)
 		return nullptr;
 	return &this->color[x][y];
 }
 
-paintit::rgb* paintit::ppm::operator[](size_t line)
+paintit::rgb *paintit::ppm::operator[](size_t line)
 {
 	return this->color[line];
 }
 
-paintit::rgb& paintit::ppm::operator()(size_t x, size_t y)
+paintit::rgb &paintit::ppm::operator()(size_t x, size_t y)
 {
-	if(x > width || y > height)
+	if (x > width || y > height)
 	{
 		throw bad_access_exception();
 	}
 	return this->color[x][y];
 }
 
-paintit::ppm& paintit::ppm::operator=(const ppm& image)
+paintit::ppm &paintit::ppm::operator=(const ppm &image)
 {
 	this->image(image.width, image.height);
 
-	for(size_t i = 0; i < this->width; ++i) 
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j) 
+		for (size_t j = 0; j < this->height; ++j)
 		{
 			this->color[i][j] = image.color[i][j];
 		}
@@ -102,18 +103,18 @@ paintit::ppm& paintit::ppm::operator=(const ppm& image)
 	return *this;
 }
 
-bool paintit::ppm::operator==(const ppm& image)
+bool paintit::ppm::operator==(const ppm &image)
 {
-	if(this->height != image.height || this->width != image.width)
+	if (this->height != image.height || this->width != image.width)
 	{
 		return false;
 	}
 
-	for(size_t i = 0; i < this->width; ++i)
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j)
+		for (size_t j = 0; j < this->height; ++j)
 		{
-			if(this->color[i][j] != image.color[i][j])
+			if (this->color[i][j] != image.color[i][j])
 			{
 				return false;
 			}
@@ -122,18 +123,18 @@ bool paintit::ppm::operator==(const ppm& image)
 	return true;
 }
 
-bool paintit::ppm::operator!=(const ppm& image)
+bool paintit::ppm::operator!=(const ppm &image)
 {
-	if(this->height != image.height || this->width != image.width)
+	if (this->height != image.height || this->width != image.width)
 	{
 		return true;
 	}
 
-	for(size_t i = 0; i < this->width; ++i)
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j)
+		for (size_t j = 0; j < this->height; ++j)
 		{
-			if(this->color[i][j] != image.color[i][j])
+			if (this->color[i][j] != image.color[i][j])
 			{
 				return true;
 			}
@@ -148,7 +149,7 @@ std::string paintit::ppm::image(size_t width, size_t height)
 
 	this->erase();
 
-	if(height == 0 || width == 0)
+	if (height == 0 || width == 0)
 	{
 		return noerror;
 	}
@@ -156,20 +157,20 @@ std::string paintit::ppm::image(size_t width, size_t height)
 	this->width = width;
 	this->height = height;
 
-	this->color = new (std::nothrow) paintit::rgb*[width];
-	if(!this->color)
+	this->color = new (std::nothrow) paintit::rgb *[width];
+	if (!this->color)
 	{
 		DebugWarning("couldn't allocate image in memory.");
 		return insufficient_memory_exception;
 	}
-	for(size_t i = 0; i < width; ++i)
+	for (size_t i = 0; i < width; ++i)
 	{
 		this->color[i] = new (std::nothrow) paintit::rgb[height];
-		if(!this->color[i])
+		if (!this->color[i])
 		{
 			DebugWarning("couldn't allocate image in memory.");
 			DebugLog("freeing memory...");
-			for(size_t ii = 0; ii < i; ++ii)
+			for (size_t ii = 0; ii < i; ++ii)
 			{
 				delete[] this->color[ii];
 			}
@@ -188,14 +189,14 @@ std::string paintit::ppm::image(size_t width, size_t height)
 	return noerror;
 }
 
-std::string paintit::ppm::clear(const paintit::rgb& newcolor)
+std::string paintit::ppm::clear(const paintit::rgb &newcolor)
 {
-	if(this->color == nullptr)
+	if (this->color == nullptr)
 		return uninitialized_image_exception;
 
-	for(size_t i = 0; i < this->width; ++i)
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j)
+		for (size_t j = 0; j < this->height; ++j)
 		{
 			this->color[i][j] = newcolor;
 		}
@@ -204,7 +205,7 @@ std::string paintit::ppm::clear(const paintit::rgb& newcolor)
 	return noerror;
 }
 
-std::string paintit::ppm::saveP3(const std::string& arquivo)
+std::string paintit::ppm::saveP3(const std::string &arquivo)
 {
 	std::ofstream save;
 	save.open(arquivo);
@@ -212,30 +213,27 @@ std::string paintit::ppm::saveP3(const std::string& arquivo)
 	save << this->width << " " << this->height << "\r";
 	save << "255\r";
 
-	for(size_t j = 0; j < this->height; ++j) //o laço superior é relacionado à altura devido a ordem de gravação.
+	for (size_t j = 0; j < this->height; ++j) //o laço superior é relacionado à altura devido a ordem de gravação.
 	{
-		for(size_t i = 0; i < this->width; ++i)
+		for (size_t i = 0; i < this->width; ++i)
 		{
-			save <<
-				std::setfill('0') << std::setw(3) << this->color[i][j].getR() << " " << 
-				std::setfill('0') << std::setw(3) << this->color[i][j].getG() << " " << 
-				std::setfill('0') << std::setw(3) << this->color[i][j].getB() << "\r";
+			save << std::setfill('0') << std::setw(3) << this->color[i][j].getR() << " " << std::setfill('0') << std::setw(3) << this->color[i][j].getG() << " " << std::setfill('0') << std::setw(3) << this->color[i][j].getB() << "\r";
 		}
 	}
 	save.close();
 
 	return noerror;
 }
-std::string paintit::ppm::saveP6(const std::string& arquivo)
+std::string paintit::ppm::saveP6(const std::string &arquivo)
 {
 	std::ofstream save;
 	save.open(arquivo, std::ios_base::binary);
 	save << "P6\r";
 	save << this->width << " " << this->height << "\r";
 	save << "255\r";
-	for(size_t j = 0; j < this->height; ++j) //o laço superior é relacionado à altura devido a ordem de gravação.
+	for (size_t j = 0; j < this->height; ++j) //o laço superior é relacionado à altura devido a ordem de gravação.
 	{
-		for(size_t i = 0; i < this->width; ++i)
+		for (size_t i = 0; i < this->width; ++i)
 		{
 			save << (unsigned char)this->color[i][j].getR() << (unsigned char)this->color[i][j].getG() << (unsigned char)this->color[i][j].getB();
 		}
@@ -245,21 +243,21 @@ std::string paintit::ppm::saveP6(const std::string& arquivo)
 	return noerror;
 }
 
-SDL_Surface* paintit::ppm::to_surface()
+SDL_Surface *paintit::ppm::to_surface()
 {
-	SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, width, height, 64, SDL_PIXELFORMAT_ARGB8888);
+	SDL_Surface *surface = SDL_CreateRGBSurfaceWithFormat(0, width, height, 64, SDL_PIXELFORMAT_ARGB8888);
 
 	if (surface == NULL)
 	{
 		std::cout << "SDL_CreateRGBSurfaceWithFormat() failed: " << SDL_GetError() << std::endl;
 		return nullptr;
-	}	
+	}
 
 	SDL_LockSurface(surface);
-	Uint8* pixels = (Uint8*)surface->pixels;
-	for(size_t i = 0; i < width; ++i)
+	Uint8 *pixels = (Uint8 *)surface->pixels;
+	for (size_t i = 0; i < width; ++i)
 	{
-		for(size_t j = 0; j < height; ++j)
+		for (size_t j = 0; j < height; ++j)
 		{
 			int target = (j * surface->pitch) + (i * surface->format->BytesPerPixel);
 			pixels[target + 2] = this->color[i][j].getR(); //BGRA nesta ordem, ou seja: 2103 <=> RGBA
@@ -273,54 +271,54 @@ SDL_Surface* paintit::ppm::to_surface()
 	return surface;
 }
 
-std::string paintit::ppm::saveJpg(const std::string& arquivo)
+std::string paintit::ppm::saveJpg(const std::string &arquivo)
 {
-	SDL_Surface* surface = this->to_surface();
+	SDL_Surface *surface = this->to_surface();
 	IMG_SaveJPG(surface, arquivo.c_str(), 100);
 	SDL_FreeSurface(surface);
 
-	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror; 
+	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror;
 }
 
-std::string paintit::ppm::savePng(const std::string& arquivo)
+std::string paintit::ppm::savePng(const std::string &arquivo)
 {
-	SDL_Surface* surface = this->to_surface();
+	SDL_Surface *surface = this->to_surface();
 	IMG_SavePNG(surface, arquivo.c_str());
 	SDL_FreeSurface(surface);
 
-	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror; 
+	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror;
 }
-std::string paintit::ppm::saveBmp(const std::string& arquivo)
+std::string paintit::ppm::saveBmp(const std::string &arquivo)
 {
-	SDL_Surface* surface = this->to_surface();
+	SDL_Surface *surface = this->to_surface();
 	SDL_SaveBMP(surface, arquivo.c_str());
 	SDL_FreeSurface(surface);
 
-	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror; 
+	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror;
 }
 
-std::string paintit::ppm::save(const char* format, const char* arquivo)
+std::string paintit::ppm::save(const char *format, const char *arquivo)
 {
-	if(this->color == nullptr)
+	if (this->color == nullptr)
 		return uninitialized_image_exception;
 
-	if(lib::cstrcmp(format, "p3") == 0)
+	if (lib::cstrcmp(format, "p3") == 0)
 	{
 		return saveP3(arquivo);
 	}
-	else if(lib::cstrcmp(format, "p6") == 0)
+	else if (lib::cstrcmp(format, "p6") == 0)
 	{
 		return saveP6(arquivo);
 	}
-	else if(lib::cstrcmp(format, "jpg") == 0)
+	else if (lib::cstrcmp(format, "jpg") == 0)
 	{
 		return saveJpg(arquivo);
 	}
-	else if(lib::cstrcmp(format, "png") == 0)
+	else if (lib::cstrcmp(format, "png") == 0)
 	{
 		return savePng(arquivo);
 	}
-	else if(lib::cstrcmp(format, "bmp") == 0)
+	else if (lib::cstrcmp(format, "bmp") == 0)
 	{
 		return saveBmp(arquivo);
 	}
@@ -328,12 +326,12 @@ std::string paintit::ppm::save(const char* format, const char* arquivo)
 	return invalid_format_exception;
 }
 
-std::string paintit::ppm::openP3(const char* arquivo)
+std::string paintit::ppm::openP3(const char *arquivo)
 {
 	std::ifstream file;
 	file.open(arquivo);
 
-	if(!file.is_open())
+	if (!file.is_open())
 	{
 		return inexistent_file_exception;
 	}
@@ -346,12 +344,12 @@ std::string paintit::ppm::openP3(const char* arquivo)
 
 	file.ignore();
 
-	if(file.failbit || magic != 3)
+	if (file.failbit || magic != 3)
 	{
 		file.close();
 		return invalid_format_exception;
 	}
-	else if(colors != 255)
+	else if (colors != 255)
 	{
 		file.close();
 		return non_24bit_exception;
@@ -359,16 +357,16 @@ std::string paintit::ppm::openP3(const char* arquivo)
 
 	this->image(this->width, this->height);
 
-	for(size_t i = 0; i < this->width; ++i)
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j)
+		for (size_t j = 0; j < this->height; ++j)
 		{
 			short r = 0, g = 0, b = 0;
 
 			file >> r >> g >> b;
 			this->color[i][j] = paintit::rgb(r, g, b);
 
-			if(file.failbit)
+			if (file.failbit)
 			{
 				file.close();
 				return missing_pixels_warning;
@@ -380,12 +378,12 @@ std::string paintit::ppm::openP3(const char* arquivo)
 	return noerror;
 }
 
-std::string paintit::ppm::openP6(const char* arquivo)
+std::string paintit::ppm::openP6(const char *arquivo)
 {
 	std::fstream file;
 	file.open(arquivo, std::ios_base::in);
 
-	if(!file.is_open())
+	if (!file.is_open())
 	{
 		return inexistent_file_exception;
 	}
@@ -398,12 +396,12 @@ std::string paintit::ppm::openP6(const char* arquivo)
 
 	file.ignore();
 
-	if(file.failbit || magic != 6)
+	if (file.failbit || magic != 6)
 	{
 		file.close();
 		return invalid_format_exception;
 	}
-	else if(colors != 255)
+	else if (colors != 255)
 	{
 		file.close();
 		return non_24bit_exception;
@@ -411,16 +409,16 @@ std::string paintit::ppm::openP6(const char* arquivo)
 
 	this->image(this->width, this->height);
 
-	for(size_t i = 0; i < this->width; ++i)
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j)
+		for (size_t j = 0; j < this->height; ++j)
 		{
 			unsigned char r = 0, g = 0, b = 0;
 
 			file >> r >> g >> b;
 			this->color[i][j].setRGB(r, g, b);
 
-			if(file.failbit)
+			if (file.failbit)
 			{
 				file.close();
 				return missing_pixels_warning;
@@ -432,10 +430,10 @@ std::string paintit::ppm::openP6(const char* arquivo)
 	return noerror;
 }
 
-std::string paintit::ppm::openOther(const char* arquivo)
+std::string paintit::ppm::openOther(const char *arquivo)
 {
-	SDL_Surface* surface = IMG_Load(arquivo);
-	if(surface == NULL)
+	SDL_Surface *surface = IMG_Load(arquivo);
+	if (surface == NULL)
 	{
 		DebugError("IMG_Load: " << SDL_GetError());
 		return inexistent_file_exception;
@@ -444,9 +442,9 @@ std::string paintit::ppm::openOther(const char* arquivo)
 	this->image(surface->w, surface->h);
 
 	Uint8 r, g, b;
-	for(size_t i = 0; i < this->getWidth(); ++i)
+	for (size_t i = 0; i < this->getWidth(); ++i)
 	{
-		for(size_t j = 0; j < this->getHeight(); ++j)
+		for (size_t j = 0; j < this->getHeight(); ++j)
 		{
 			SDL_GetRGB(lib::getpixel(surface, i, j), surface->format, &r, &g, &b);
 			(*this)[i][j].setRGB(r, g, b);
@@ -458,22 +456,22 @@ std::string paintit::ppm::openOther(const char* arquivo)
 	return strcmp(SDL_GetError(), "") != 0 ? SDL_GetError() : noerror;
 }
 
-std::string paintit::ppm::open(const char* arquivo)
+std::string paintit::ppm::open(const char *arquivo)
 {
 	std::string error;
 	isReady = false;
 	error = openP3(arquivo);
-	if(error != invalid_format_exception)
+	if (error != invalid_format_exception)
 	{
 		return error;
 	}
 	error = openP6(arquivo);
-	if(error != invalid_format_exception)
+	if (error != invalid_format_exception)
 	{
 		return error;
 	}
 	error = openOther(arquivo);
-	if(error != noerror)
+	if (error != noerror)
 	{
 		return error;
 	}
@@ -484,15 +482,15 @@ std::string paintit::ppm::open(const char* arquivo)
 
 std::string paintit::ppm::erase()
 {
-	if(this->color == nullptr)
+	if (this->color == nullptr)
 		return noerror;
 
-	for(size_t i = 0; i < this->width; ++i)
+	for (size_t i = 0; i < this->width; ++i)
 	{
 		delete[] this->color[i];
 	}
 	delete[] this->color;
-	
+
 	this->height = 0;
 	this->width = 0;
 	this->color = nullptr;
@@ -500,16 +498,16 @@ std::string paintit::ppm::erase()
 	return noerror;
 }
 
-std::string paintit::ppm::rotate() 
+std::string paintit::ppm::rotate()
 {
-	if(this->color == nullptr)
+	if (this->color == nullptr)
 		return uninitialized_image_exception;
 
 	ppm rotationed_bitmap;
 	rotationed_bitmap.image(this->height, this->width);
-	for(size_t i = 0; i < this->width; ++i) 
+	for (size_t i = 0; i < this->width; ++i)
 	{
-		for(size_t j = 0; j < this->height; ++j) 
+		for (size_t j = 0; j < this->height; ++j)
 		{
 			rotationed_bitmap.color[this->height - j - 1][i] = this->color[i][j];
 		}
@@ -520,14 +518,14 @@ std::string paintit::ppm::rotate()
 	return noerror;
 }
 
-std::string paintit::ppm::invert() 
+std::string paintit::ppm::invert()
 {
-	if(this->color == nullptr)
+	if (this->color == nullptr)
 		return uninitialized_image_exception;
 
-	for(size_t i = 0; i < (this->width - 1) / 2; ++i)
+	for (size_t i = 0; i < (this->width - 1) / 2; ++i)
 	{
-		for(size_t j = 0; j <= this->height; ++j)
+		for (size_t j = 0; j <= this->height; ++j)
 		{
 			paintit::rgb tmp = this->color[i][j];
 			this->color[i][j] = this->color[this->width - i - 1][j];

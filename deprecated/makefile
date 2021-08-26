@@ -1,6 +1,6 @@
 
 SDL_COMP_FLAGS=-IY:/MinGW/include/SDL2
-SDL_LINK_FLAGS=-lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+SDL_LINK_FLAGS=-LY:/MinGW/lib -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 ################################
 FILE=prog
@@ -16,7 +16,7 @@ OBJFOLDER=objects
 
 COMPILER=g++
 
-COMPILATION_FLAGS=-O3 -Wall -Wextra -pedantic ${SDL_COMP_FLAGS}
+COMPILATION_FLAGS=-O3 -Wall -Wextra -pedantic -std=c++11 ${SDL_COMP_FLAGS}
 LINKER_FLAGS=${SDL_LINK_FLAGS}
 
 DEFINES=DEBUG

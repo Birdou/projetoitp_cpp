@@ -7,11 +7,11 @@
 
 namespace paintit
 {
-		void listcolor();
+	void listcolor();
 
-		void help(unsigned page = 1);
-		std::string command_help(const std::string& command);
-		std::string command_sintax(const std::string& command);
+	void help(unsigned page = 1);
+	std::string command_help(const std::string &command);
+	std::string command_sintax(const std::string &command);
 }
 
 #endif

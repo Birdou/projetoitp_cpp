@@ -10,43 +10,33 @@
 #include "ECS.hpp"
 #include "Vector2D.hpp"
 
-
 class AssetManager
 {
 public:
+	AssetManager(Manager *man);
 
-	
-	AssetManager(Manager * man);
-	
 	~AssetManager();
 
-	
 	enum Tag
 	{
 		groupLabels
 	};
 
-	
-	Entity& CreateLabel(const std::string& labelName, const Vector2D& position, const std::string& text, const std::string& font, SDL_Color color, short type);
+	Entity &CreateLabel(const std::string &labelName, const Vector2D &position, const std::string &text, const std::string &font, SDL_Color color, short type);
 
-	
-	void AddTexture(const std::string& id, char const * path);
-	
-	void AddFont(const std::string& id, const std::string& path, int fontSize);
+	void AddTexture(const std::string &id, char const *path);
 
-	
-	SDL_Texture* GetTexture(const std::string& id);
+	void AddFont(const std::string &id, const std::string &path, int fontSize);
 
-	
-	static TTF_Font* GetFont(const std::string& id);
+	SDL_Texture *GetTexture(const std::string &id);
 
-	static std::map<std::string, TTF_Font*> fonts;
+	static TTF_Font *GetFont(const std::string &id);
+
+	static std::map<std::string, TTF_Font *> fonts;
 
 private:
-
-	Manager* manager;
-	std::map<std::string, SDL_Texture*> textures;
-
+	Manager *manager;
+	std::map<std::string, SDL_Texture *> textures;
 };
 
 #endif

@@ -7,12 +7,12 @@
 
 #include "viewer.hpp"
 
-SDL_Texture* TextureManager::LoadTexture(const char * texture)
+SDL_Texture *TextureManager::LoadTexture(const char *texture)
 {
-	SDL_Surface* tmpSurface = IMG_Load(texture);
-	SDL_Texture* tex = SDL_CreateTextureFromSurface(paintit::viewer::renderer, tmpSurface);
+	SDL_Surface *tmpSurface = IMG_Load(texture);
+	SDL_Texture *tex = SDL_CreateTextureFromSurface(paintit::viewer::renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
-	if(strcmp(SDL_GetError(), "") != 0)
+	if (strcmp(SDL_GetError(), "") != 0)
 	{
 		DebugWarningS(texture << " : " << SDL_GetError());
 		SDL_ClearError();
@@ -20,7 +20,7 @@ SDL_Texture* TextureManager::LoadTexture(const char * texture)
 	return tex;
 }
 
-void TextureManager::Draw(SDL_Texture* tex)
+void TextureManager::Draw(SDL_Texture *tex)
 {
 	if (tex == NULL)
 	{
@@ -30,7 +30,7 @@ void TextureManager::Draw(SDL_Texture* tex)
 	SDL_RenderCopyEx(paintit::viewer::renderer, tex, nullptr, nullptr, 0, NULL, SDL_FLIP_NONE);
 }
 
-void TextureManager::Draw(SDL_Texture* tex, const SDL_Rect& dest)
+void TextureManager::Draw(SDL_Texture *tex, const SDL_Rect &dest)
 {
 	if (tex == NULL)
 	{
@@ -40,7 +40,7 @@ void TextureManager::Draw(SDL_Texture* tex, const SDL_Rect& dest)
 	SDL_RenderCopyEx(paintit::viewer::renderer, tex, nullptr, &dest, 0, NULL, SDL_FLIP_NONE);
 }
 
-void TextureManager::Draw(SDL_Texture* tex, const SDL_Rect& src, const SDL_Rect& dest)
+void TextureManager::Draw(SDL_Texture *tex, const SDL_Rect &src, const SDL_Rect &dest)
 {
 	if (tex == NULL)
 	{
@@ -50,7 +50,7 @@ void TextureManager::Draw(SDL_Texture* tex, const SDL_Rect& src, const SDL_Rect&
 	SDL_RenderCopyEx(paintit::viewer::renderer, tex, &src, &dest, 0, NULL, SDL_FLIP_NONE);
 }
 
-void TextureManager::Draw(SDL_Texture* tex, const SDL_Rect& src, const SDL_Rect& dest, float ang, SDL_RendererFlip flip)
+void TextureManager::Draw(SDL_Texture *tex, const SDL_Rect &src, const SDL_Rect &dest, float ang, SDL_RendererFlip flip)
 {
 	if (tex == NULL)
 	{
@@ -59,4 +59,3 @@ void TextureManager::Draw(SDL_Texture* tex, const SDL_Rect& src, const SDL_Rect&
 	}
 	SDL_RenderCopyEx(paintit::viewer::renderer, tex, &src, &dest, ang, NULL, flip);
 }
-

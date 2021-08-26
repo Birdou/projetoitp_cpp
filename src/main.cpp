@@ -10,7 +10,7 @@
 #define TERMINAL_ENCODING
 #endif
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
 	TERMINAL_ENCODING;
 	setlocale(LC_ALL, "pt_BR_utf8");
@@ -20,15 +20,15 @@ int main(int argc, char* argv[])
 	DebugErrorS("this is a error message");
 	DebugCriticalS("this is a critical error message");
 
-	paintit::paintit_main* paintit = new paintit::paintit_main();
+	paintit::paintit_main *paintit = new paintit::paintit_main();
 
 	paintit->init();
-	if(argc > 1)
+	if (argc > 1)
 	{
 		std::string file(argv[1]);
 		std::cout << "$ " << colorstream("open " << file, fLIGHT_BLUE) << std::endl;
 		std::cout << paintit->current_image->open(argv[1]) << std::endl;
-		if(paintit->current_image->getWidth() != 0 && paintit->current_image->getHeight() != 0)
+		if (paintit->current_image->getWidth() != 0 && paintit->current_image->getHeight() != 0)
 		{
 			paintit->current_image->savePng("editview.png");
 			//paintit->updateImage();
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		struct stat buffer;
-  		if(stat("editview.png", &buffer) == 0)
+		if (stat("editview.png", &buffer) == 0)
 		{
 			std::cout << "O programa não foi encerrado corretamente na última vez em que foi usado." << std::endl;
 			std::cout << paintit->current_image->open("editview.png") << std::endl;

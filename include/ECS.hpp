@@ -25,7 +25,7 @@ inline size_t getNewComponentTypeID()
 template <typename T>
 inline size_t getNewComponentTypeID() noexcept
 {
-	static_assert (std::is_base_of<Component, T>::value, "");
+	static_assert(std::is_base_of<Component, T>::value, "");
 	static size_t typeID = getNewComponentTypeID();
 	return typeID;
 }
@@ -38,39 +38,40 @@ using Group = size_t;
 class Component
 {
 public:
-	Entity* entity;
+	Entity *entity;
 
 	virtual void init() {}
 	virtual void update() {}
 	virtual void draw() {}
 
 	virtual ~Component() {}
-
 };
 
 class Entity
 {
 protected:
-	Manager& manager;
+	Manager &manager;
 	bool active = true;
 	std::vector<std::unique_ptr<Component>> components;
 
-	std::array<Component*, maxComponents> componentArray;
+	std::array<Component *, maxComponents> componentArray;
 	std::bitset<maxComponents> componentBitSet;
 	std::bitset<maxGroups> groupBitSet;
 
 public:
-	Entity(Manager& mManager):
-	manager(mManager)
-	{}
+	Entity(Manager &mManager) : manager(mManager)
+	{
+	}
 
 	void update()
 	{
-		for (auto& c: components) c->update();
+		for (auto &c : components)
+			c->update();
 	}
 	void draw()
 	{
-		for (auto& c: components) c->draw();
+		for (auto &c : components)
+			c->draw();
 	}
 	bool isActive() const { return active; }
 
@@ -94,11 +95,11 @@ public:
 	}
 
 	template <typename T, typename... TArgs>
-	T& addComponent(TArgs&&... mArgs)
+	T &addComponent(TArgs &&...mArgs)
 	{
-		T* c(new T(std::forward<TArgs>(mArgs)...));
+		T *c(new T(std::forward<TArgs>(mArgs)...));
 		c->entity = this;
-		std::unique_ptr<Component> uPtr{ c };
+		std::unique_ptr<Component> uPtr{c};
 		components.emplace_back(std::move(uPtr));
 
 		componentArray[getNewComponentTypeID<T>()] = c;
@@ -108,10 +109,10 @@ public:
 		return *c;
 	}
 	template <typename T>
-	T& getComponent() const
+	T &getComponent() const
 	{
 		auto ptr(componentArray[getNewComponentTypeID<T>()]);
-		return *static_cast<T*>(ptr);
+		return *static_cast<T *>(ptr);
 	}
 };
 
@@ -119,64 +120,66 @@ class Manager
 {
 private:
 	std::vector<std::unique_ptr<Entity>> entities;
-	std::array<std::vector<Entity*>, maxGroups> groupedEntities;
-	std::unordered_map<std::string, Entity*> entityID;
+	std::array<std::vector<Entity *>, maxGroups> groupedEntities;
+	std::unordered_map<std::string, Entity *> entityID;
 
 public:
 	void update()
 	{
-		for (auto& e: entities) e->update();
+		for (auto &e : entities)
+			e->update();
 	}
 
 	void draw()
 	{
-		for (auto& e: entities) e->draw();
+		for (auto &e : entities)
+			e->draw();
 	}
 
 	void refresh()
 	{
-		for(auto i(0u); i < maxGroups; i++)
+		for (auto i(0u); i < maxGroups; i++)
 		{
-			auto& v(groupedEntities[i]);
+			auto &v(groupedEntities[i]);
 			v.erase(
 				std::remove_if(std::begin(v), std::end(v),
-					[i](Entity* mEntity)
-					{
-						return !mEntity->isActive() || !mEntity->hasGroup(i);
-					}),
+							   [i](Entity *mEntity)
+							   {
+								   return !mEntity->isActive() || !mEntity->hasGroup(i);
+							   }),
 				std::end(v));
 		}
 
 		entities.erase(std::remove_if(std::begin(entities), std::end(entities),
-			[](const std::unique_ptr<Entity> &mEntity)
-		{
-			return !mEntity->isActive();
-		}),
-		std::end(entities));
+									  [](const std::unique_ptr<Entity> &mEntity)
+									  {
+										  return !mEntity->isActive();
+									  }),
+					   std::end(entities));
 	}
 
-	void AddToGroup(Entity* mEntity, size_t mGroup)
+	void AddToGroup(Entity *mEntity, size_t mGroup)
 	{
 		groupedEntities[mGroup].emplace_back(mEntity);
 	}
 
-	std::vector<Entity*>& getGroup(size_t mGroup)
+	std::vector<Entity *> &getGroup(size_t mGroup)
 	{
 		return groupedEntities[mGroup];
 	}
 
-	Entity& addEntity()
+	Entity &addEntity()
 	{
-		Entity* e = new Entity(*this);
-		std::unique_ptr<Entity> uPtr{ e };
+		Entity *e = new Entity(*this);
+		std::unique_ptr<Entity> uPtr{e};
 		entities.emplace_back(std::move(uPtr));
 		return *e;
 	}
 
-	Entity& addEntity(const std::string& id)
+	Entity &addEntity(const std::string &id)
 	{
-		Entity* e = new Entity(*this);
-		std::unique_ptr<Entity> uPtr{ e };
+		Entity *e = new Entity(*this);
+		std::unique_ptr<Entity> uPtr{e};
 		entities.emplace_back(std::move(uPtr));
 
 		entityID.emplace(id, e);
@@ -184,7 +187,7 @@ public:
 		return *e;
 	}
 
-	Entity* getEntityByID(const std::string& id)
+	Entity *getEntityByID(const std::string &id)
 	{
 		return entityID[id];
 	}

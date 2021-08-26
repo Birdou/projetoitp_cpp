@@ -18,44 +18,40 @@ namespace paintit
     class viewer
     {
     private:
-        SDL_Window* window = NULL;
+        SDL_Window *window = NULL;
         std::string title;
         int xpos, ypos, width, height;
         bool fullscreen;
 
-        SDL_Texture* imageTexture = NULL;
+        SDL_Texture *imageTexture = NULL;
         SDL_Rect destRect = {0, 0, 0, 0};
         int imagew = 0, imageh = 0;
         float imagex = 0, imagey = 0;
         int relative_imagex = 0, relative_imagey = 0;
         float xyscale = 1.0f;
 
-        static AssetManager* assetManager;
+        static AssetManager *assetManager;
 
     public:
-        
-        viewer(const std::string& title, int xpos, int ypos, int width, int height, bool fullscreen);
-        
+        viewer(const std::string &title, int xpos, int ypos, int width, int height, bool fullscreen);
+
         ~viewer();
 
         static Manager manager;
-        static SDL_Renderer* renderer;
+        static SDL_Renderer *renderer;
         static SDL_Event event;
         static bool isRunning;
 
-        
         void init();
 
-        
         void updateImage();
-        
-        void updateImage(paintit::ppm*);
 
-        
+        void updateImage(paintit::ppm *);
+
         void handleEvents();
-        
+
         void update();
-        
+
         void draw();
     };
 }

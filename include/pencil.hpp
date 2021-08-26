@@ -12,21 +12,21 @@ namespace paintit
 	class penc
 	{
 	public:
-				penc();
-				penc(paintit::rgb color, double size);
-				~penc();
+		penc();
+		penc(paintit::rgb color, double size);
+		~penc();
 
-				paintit::rgb getColor() const;
-				void setColor(paintit::rgb color);
+		paintit::rgb getColor() const;
+		void setColor(paintit::rgb color);
 
-				double getSize() const;
-				void setSize(double size);
+		double getSize() const;
+		void setSize(double size);
 
-				std::string scolor(const std::string& colorname);
+		std::string scolor(const std::string &colorname);
 
-				void touch(paintit::rgb& color) const;
+		void touch(paintit::rgb &color) const;
 
-				enum Modes
+		enum Modes
 		{
 			normal,
 			average,
